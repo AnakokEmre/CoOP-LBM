@@ -96,7 +96,6 @@ LBM_VEM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 #' @param tau2 initial clustering of columns
 #' @param param list of parameters
 #'
-#' @importFrom
 #' @return Estimated LBM parameters, clustering, lambda and mu for a given number of groups.
 #' @export
 #'

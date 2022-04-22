@@ -2,7 +2,7 @@
 % Please edit documentation in R/Algo_CoOP_LBM.R
 \name{CoOP_LBM}
 \alias{CoOP_LBM}
-\title{Expected Degree Distribution and Variational Expectation Maximization}
+\title{Corrected Observation Process for Latent Block Model}
 \usage{
 CoOP_LBM(R, Q1, Q2, Z1 = c(), Z2 = c(), estimOptions = list())
 }
@@ -20,8 +20,8 @@ CoOP_LBM(R, Q1, Q2, Z1 = c(), Z2 = c(), estimOptions = list())
 \item{param}{list of parameters}
 }
 \value{
-Estimated LBM parameters, clustering, lambda and mu
+Estimated LBM parameters, clustering, lambda and mu for a given number of groups.
 }
 \description{
-Expected Degree Distribution and Variational Expectation Maximization
+Corrected Observation Process for Latent Block Model
 }
