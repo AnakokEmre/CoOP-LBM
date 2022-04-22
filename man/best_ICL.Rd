@@ -24,7 +24,7 @@ Q2=3
 alpha1=c(.25,0.25, .5)
 alpha2=c(0.10,0.4,0.5)
 P <- matrix(c(0.9,0.6,0.4,0.7,0.5,0.3,0.5,0.3,0.1), Q1, Q2)
-simulation1=simulate_lbm(P,alpha1,alpha2,n1,n2)
+simulation1=robber::simulate_lbm(P,alpha1,alpha2,n1,n2)
 M = simulation1$A
 Z1 =simulation1$Z
 Z2 =simulation1$W
@@ -42,6 +42,6 @@ obscol = colSums(R)>0
 R_obs = R[obsrow,obscol]
 M_obs = M[obsrow,obscol]
 R = M*N
-models=main_CoOP_LBM(R)
+models=main_CoOP_LBM(R,exploOptions=list(plot=F))
 print(best_model(models))
 }

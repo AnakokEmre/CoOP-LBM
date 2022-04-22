@@ -71,14 +71,10 @@
 <span class="r-in"><span class="va">alpha1</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>,<span class="fl">0.25</span>, <span class="fl">.5</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">alpha2</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="fl">0.4</span>,<span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">P</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>,<span class="fl">0.6</span>,<span class="fl">0.4</span>,<span class="fl">0.7</span>,<span class="fl">0.5</span>,<span class="fl">0.3</span>,<span class="fl">0.5</span>,<span class="fl">0.3</span>,<span class="fl">0.1</span><span class="op">)</span>, <span class="va">Q1</span>, <span class="va">Q2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">simulation1</span><span class="op">=</span><span class="fu">simulate_lbm</span><span class="op">(</span><span class="va">P</span>,<span class="va">alpha1</span>,<span class="va">alpha2</span>,<span class="va">n1</span>,<span class="va">n2</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in simulate_lbm(P, alpha1, alpha2, n1, n2):</span> could not find function "simulate_lbm"</span>
+<span class="r-in"><span class="va">simulation1</span><span class="op">=</span><span class="fu">robber</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/robber/man/simulate_lbm.html" class="external-link">simulate_lbm</a></span><span class="op">(</span><span class="va">P</span>,<span class="va">alpha1</span>,<span class="va">alpha2</span>,<span class="va">n1</span>,<span class="va">n2</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">M</span> <span class="op">=</span> <span class="va">simulation1</span><span class="op">$</span><span class="va">A</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'simulation1' not found</span>
 <span class="r-in"><span class="va">Z1</span> <span class="op">=</span><span class="va">simulation1</span><span class="op">$</span><span class="va">Z</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'simulation1' not found</span>
 <span class="r-in"><span class="va">Z2</span> <span class="op">=</span><span class="va">simulation1</span><span class="op">$</span><span class="va">W</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'simulation1' not found</span>
 <span class="r-in"><span class="va">G</span><span class="op">=</span> <span class="fl">300</span></span>
 <span class="r-in"><span class="va">lambda_i</span> <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n1</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">mu_j</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n2</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
@@ -88,19 +84,33 @@
 <span class="r-in"><span class="va">N0</span> <span class="op">=</span> <span class="va">N0</span><span class="op">*</span><span class="va">G</span></span>
 <span class="r-in"><span class="va">N</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n1</span><span class="op">*</span><span class="va">n2</span>,<span class="va">N0</span><span class="op">)</span>,nrow<span class="op">=</span><span class="va">n1</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">R</span> <span class="op">=</span> <span class="va">M</span><span class="op">*</span><span class="va">N</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'M' not found</span>
 <span class="r-in"><span class="va">obsrow</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">R</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is.data.frame(x):</span> object 'R' not found</span>
 <span class="r-in"><span class="va">obscol</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">R</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is.data.frame(x):</span> object 'R' not found</span>
 <span class="r-in"><span class="va">R_obs</span> <span class="op">=</span> <span class="va">R</span><span class="op">[</span><span class="va">obsrow</span>,<span class="va">obscol</span><span class="op">]</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'R' not found</span>
 <span class="r-in"><span class="va">M_obs</span> <span class="op">=</span> <span class="va">M</span><span class="op">[</span><span class="va">obsrow</span>,<span class="va">obscol</span><span class="op">]</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'M' not found</span>
 <span class="r-in"><span class="va">R</span> <span class="op">=</span> <span class="va">M</span><span class="op">*</span><span class="va">N</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'M' not found</span>
-<span class="r-in"><span class="va">models</span><span class="op">=</span><span class="fu"><a href="main_CoOP_LBM.html">main_CoOP_LBM</a></span><span class="op">(</span><span class="va">R</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in main_CoOP_LBM(R):</span> object 'R' not found</span>
+<span class="r-in"><span class="va">models</span><span class="op">=</span><span class="fu"><a href="main_CoOP_LBM.html">main_CoOP_LBM</a></span><span class="op">(</span><span class="va">R</span>,exploOptions<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 1 , 1 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 2 , 1 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 1 , 2 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 2 , 2 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 3 , 1 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 3 , 2 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 1 , 3 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 2 , 3 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 3 , 3 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 4 , 1 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 4 , 2 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 4 , 3 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 1 , 4 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 2 , 4 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 3 , 4 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 4 , 4 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 5 , 1 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 5 , 2 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 5 , 3 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "k={ 5 , 4 }"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CoOP-LBM : Best model has been fitted with 3-2 groups."</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">best_model</span><span class="op">(</span><span class="va">models</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in best_model(models):</span> could not find function "best_model"</span>
 </code></pre></div>

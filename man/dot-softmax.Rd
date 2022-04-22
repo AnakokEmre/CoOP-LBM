@@ -16,6 +16,7 @@ softmax function applied to the vector or matrix
 Softmax
 }
 \examples{
+
 a<- c(10,20,30)
 .softmax(a)
 }

@@ -13,9 +13,9 @@ LBM_VEM(connectivity, Q1, Q2, Z1 = c(), Z2 = c(), estimOptions = list())
 
 \item{Q2}{number of column clusters}
 
-\item{tau1}{initial clustering of rows}
+\item{Z1}{initial clustering of rows}
 
-\item{tau2}{initial clustering of columns}
+\item{Z2}{initial clustering of columns}
 
 \item{param}{list of parameters}
 }
