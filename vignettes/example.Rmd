@@ -21,7 +21,7 @@ library(CoOPLBM)
 
 
 ```{r settings}
-n=0
+
 n1 = 100
 n2 = 100
 Q1 = 3
