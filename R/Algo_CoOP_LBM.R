@@ -1,4 +1,3 @@
-library(robber)
 
 #CoOP LBM
 #' Variational Expectation Maximization for LBM
@@ -236,7 +235,7 @@ CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 #' @param connectivity connectivity matrix
 #' @param f method (VEM or EDD-VEM)
 #' @param param list of parameters
-#'
+#' @export
 #' @return forward exploration of a given list of model
 forward_explo<-function(models,k1,k2,connectivity,f,param){
   cl01<-membertoclust(models[[paste(as.character(k1),as.character(k2),sep="-")]]$membership1)
@@ -296,6 +295,7 @@ forward_explo<-function(models,k1,k2,connectivity,f,param){
 #' @param connectivity connectivity matrix
 #' @param f method (VEM or EDD-VEM)
 #' @param param list of parameters
+#' @export
 #'
 #' @return forward exploration of a given list of model
 backward_explo<-function(models,k1,k2,connectivity,f,param){

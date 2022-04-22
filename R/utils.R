@@ -6,7 +6,7 @@
 #' @param X numeric vector or matrix
 #'
 #' @return 1-X
-#'
+#' @export
 #' @examples
 #' a <- c(0.1,0.2,0.7)
 #' LBMbar(a)
@@ -23,8 +23,9 @@ LBMbar <- function(X) {
 #' @param x numeric vector or matrix
 #'
 #' @return softmax function applied to the vector or matrix
-#'
+#' @export
 #' @examples
+#'
 #' a<- c(10,20,30)
 #' .softmax(a)
 .softmax <- function(x) {
@@ -39,7 +40,7 @@ LBMbar <- function(X) {
 #'
 #' @param x numeric vector or matrix
 #' @param zero smallest tolerance allowed
-#'
+#' @export
 #' @return round element too close of zero or one to a value in ]0,1[
 #' @examples
 #' a<- c(0.2,0.5,0)
@@ -58,7 +59,7 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
 #'
 #' @param clustering vector of labels
 #' @param k integer of maximum number of labels
-#'
+#' @export
 #' @return clustering indicator with k column
 #' @examples a <- c(1,1,1,2,2,2,3,3)
 #' clustering_indicator(a,3)
@@ -176,6 +177,7 @@ membertoclust<-function(membership){
 #' @param models
 #'
 #' @return plot of the ICL of the models contained in models
+#' @export
 #' @importFrom graphics plot
 LBM_plot<-function(models){
   modnames=names(models)
@@ -197,7 +199,7 @@ LBM_plot<-function(models){
 #' @param tau
 #'
 #' @return hard clustering indicator of a soft clustering
-#'
+#' @export
 #' @examples a<- matrix(0,5,2)
 #' a[,1] = runif(5)
 #' a[,2] = 1-a[,1]
@@ -223,7 +225,7 @@ memberships = function(tau) {
 #' @param pi matrix of probabilities of connections between groups
 #' @param tau1 soft clustering of rows
 #' @param tau2 soft clustering of columns
-#'
+#' @export
 #' @return new estimation of tau
 
 LBM_update_tau<-function(connectivity,alpha1,alpha2,pi,tau1,tau2){
@@ -259,7 +261,7 @@ LBM_update_tau<-function(connectivity,alpha1,alpha2,pi,tau1,tau2){
 #' @param connectivity binary matrix of connectivity
 #' @param tau1 soft clustering of rows
 #' @param tau2 soft clustering of columns
-#'
+#' @export
 #' @return new estimation of pi
 LBM_update_pi = function(connectivity,tau1,tau2) {
   N1<-dim(connectivity)[1]
@@ -272,7 +274,7 @@ LBM_update_pi = function(connectivity,tau1,tau2) {
 #' Update alpha for VEM
 #'
 #' @param tau soft clustering (row or column)
-#'
+#' @export
 #' @return new estimation of alpha (row or column)
 LBM_update_alpha = function(tau) {
   alpha <- check_boundaries(colMeans(tau))
@@ -284,7 +286,7 @@ LBM_update_alpha = function(tau) {
 #'
 #' @param Z clustering (row or column)
 #' @param Q number of group (row or column)
-#'
+#' @export
 #' @return new estimation of alpha or beta
 
 LBM_update_alpha3 = function(Z,Q) {
@@ -341,7 +343,7 @@ LBM_update_lambda_mu = function(rowSumsR,colSumsR,connectivity,fixPointIter=3){
 #' @param Z2  clustering by column
 #' @param pi probability of connection between groups
 #' @param lambda_mu matrix containing the product lambda_i x mu_j x G
-#'
+#' @export
 #' @return simulation of a connectivity matrix with missing links added
 #' @importFrom Rlab rbern
 
@@ -368,7 +370,7 @@ LBM_update_connectivity3 = function(V,Z1,Z2,pi,lambda_mu){
 #' @param Z1 clustering by row
 #' @param Z2 clustering by column
 #' @param lfactorialR matrix of log factorial of the R matrix
-#'
+#' @export
 #' @return simulate new values for Z1 and Z2 given the parameters
 #' @export
 LBM_update_Z<-function(R,alpha1,alpha2,pi,lambda_mu,Z1,Z2,lfactorialR){
@@ -586,6 +588,12 @@ LBM_ICL_2.2<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
 
 
 
+#' Nestedness metric based on Overlap and Decreasing Fill
+#'
+#' @param Matrix
+#'
+#' @return NODF of the matrix
+#' @export
 NODF = function(Matrix){
   M = Matrix[rowSums(Matrix)>0,colSums(Matrix)>0]
   n1 =dim(M)[1]
