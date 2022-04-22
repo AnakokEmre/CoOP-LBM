@@ -342,6 +342,7 @@ backward_explo<-function(models,k1,k2,connectivity,f,param){
 #' @param exploOptions list of options about exploration
 #'
 #' @return list of model with different number of cluster
+#' @import robber
 #' @export
 #'
 #' @examples
@@ -541,6 +542,7 @@ LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
 #' @param exploOptions list of options about exploration
 #'
 #' @return list of model with different number of cluster
+#' @import robber
 #' @export
 #'
 #' @examples
@@ -551,13 +553,13 @@ LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
 #' alpha1=c(.25,0.25, .5)
 #' alpha2=c(0.10,0.4,0.5)
 #' P <- matrix(c(0.9,0.6,0.4,0.7,0.5,0.3,0.5,0.3,0.1), Q1, Q2)
-#'simulation1=simulate_lbm(P,alpha1,alpha2,n1,n2)
-#'M = simulation1$A
-#'Z1 =simulation1$Z
-#'Z2 =simulation1$W
-#'G= 300
-#'lambda_i =rbeta(n1,0.3,1.5)
-#'mu_j = rbeta(n2,0.3,1.5)
+#' simulation1=simulate_lbm(P,alpha1,alpha2,n1,n2)
+#' M = simulation1$A
+#' Z1 =simulation1$Z
+#' Z2 =simulation1$W
+#' G= 300
+#' lambda_i =rbeta(n1,0.3,1.5)
+#' mu_j = rbeta(n2,0.3,1.5)
 #'lambda_i = lambda_i/max(lambda_i)
 #'mu_j = mu_j/max(mu_j)
 #'N0=lambda_i%*%t(mu_j)

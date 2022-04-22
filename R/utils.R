@@ -109,6 +109,7 @@ clustering_indicator <- function(clustering,k) {
 #' @param type type of initialization : "hierarchical_clust", "spectral_clust" or "kmeans_clust"
 #'
 #' @return list containing an initial clustering for rows and columns
+#' @import stats
 #' @examples a<- matrix(0,10,10)
 #' a[1:5,1:5] = runif(25)<0.9
 #' a[6:10,1:5] = runif(25)<0.5
@@ -201,7 +202,7 @@ membertoclust<-function(membership){
 #' @param models
 #'
 #' @return plot of the ICL of the models contained in models
-#'
+#' @importFrom graphics plot
 LBM_plot<-function(models){
   modnames=names(models)
   Q=c()
@@ -368,6 +369,7 @@ LBM_update_lambda_mu = function(rowSumsR,colSumsR,connectivity,fixPointIter=3){
 #' @param lambda_mu matrix containing the product lambda_i x mu_j x G
 #'
 #' @return simulation of a connectivity matrix with missing links added
+#' @importFrom Rlab rbern
 
 
 LBM_update_connectivity3 = function(V,Z1,Z2,pi,lambda_mu){

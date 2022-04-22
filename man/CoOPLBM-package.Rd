@@ -4,12 +4,12 @@
 \name{CoOPLBM-package}
 \alias{CoOPLBM}
 \alias{CoOPLBM-package}
-\title{CoOPLBM: Corrected Observation Process for Latent Block Model}
+\title{CoOPLBM: What the Package Does (One Line, Title Case)}
 \description{
-Fits a LBM on a weigthed bipartite graph taking into account that aunobserved data can be missing data.
+What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: Emre Anakok \email{emre.anakok@agroparistech.fr} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
 
 }
 \keyword{internal}
