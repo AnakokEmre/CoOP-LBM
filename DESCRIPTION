@@ -1,0 +1,25 @@
+Package: CoOPLBM
+Title: Corrected Observation Process for Latent Block Model
+Version: 0.0.0.9000
+Authors@R: 
+    person("Emre", "Anakok", , "emre.anakok@agroparistech.fr", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Fits a LBM on a weigthed bipartite graph taking into account that unobserved data can be missing data.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports: 
+    ape,
+    aricode,
+    bipartite,
+    ggplot2,
+    parallel,
+    Rlab,
+    robber,
+    sbm
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
