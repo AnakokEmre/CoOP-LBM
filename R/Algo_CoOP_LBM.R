@@ -1,4 +1,4 @@
-
+#CoOP LBM
 #' Variational Expectation Maximization for LBM
 #'
 #' @param connectivity binary matrix of connectivity
