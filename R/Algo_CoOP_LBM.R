@@ -1,3 +1,5 @@
+library(robber)
+
 #CoOP LBM
 #' Variational Expectation Maximization for LBM
 #'
