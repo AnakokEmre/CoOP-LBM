@@ -6,8 +6,8 @@ library(robber)
 #' @param connectivity binary matrix of connectivity
 #' @param Q1 number of row clusters
 #' @param Q2 number of column clusters
-#' @param tau1 initial clustering of rows
-#' @param tau2 initial clustering of columns
+#' @param Z1 initial clustering of rows
+#' @param Z2 initial clustering of columns
 #' @param param list of parameters
 #'
 #' @return Estimated LBM parameters and clustering
