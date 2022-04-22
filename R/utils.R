@@ -1,5 +1,6 @@
 #Utils
 
+
 #' LBMbar
 #'
 #' @param X numeric vector or matrix
@@ -52,33 +53,6 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
 }
 
 
-#' Quadratic form
-#'
-#' @param A  square matrix
-#' @param x  vector
-#'
-#' @return quadratic form associated to the matrix A applied in x
-#'
-quad_form <- function(A,x) {t(x) %*% A %*% x}
-
-
-#' Logistic function
-#'
-#' @param x numeric vector
-#'
-#' @return logistic function applied to a vector
-
-#'
-logistic <- function(x) {1/(1 + exp(-x))}
-
-
-#' Logit
-#'
-#' @param x numeric vector
-#'
-#' @return logit of each element of the vector
-logit    <- function(x) {log(x/(1 - x))}
-
 
 #' Clustering indicator
 #'
@@ -109,13 +83,12 @@ clustering_indicator <- function(clustering,k) {
 #'
 #' @return list containing an initial clustering for rows and columns
 #' @import stats
+#' @export
 #' @examples a<- matrix(0,10,10)
-#' library(CoOPLBM)
 #' a[1:5,1:5] = runif(25)<0.9
 #' a[6:10,1:5] = runif(25)<0.5
 #' a[1:5,6:10] = runif(25)<0.3
 #' a[6:10,6:10] = runif(25)<0.1
-#' print("AAAAAAAAAAAAAAAAAAAAAA")
 #' print(a)
 #' print(clustinit_LBM(a,2,2))
 
