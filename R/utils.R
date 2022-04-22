@@ -17,7 +17,6 @@ LBMbar <- function(X) {
 
 
 
-
 #'Softmax
 #'
 #' @param x numeric vector or matrix
