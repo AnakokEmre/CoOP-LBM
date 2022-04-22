@@ -10,6 +10,8 @@
 #'
 #' @return Estimated LBM parameters and clustering
 #' @export
+#'
+#' @import parallel
 
 LBM_VEM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
   param <- list(
@@ -85,7 +87,7 @@ LBM_VEM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 
 
 
-#' Expected Degree Distribution and Variational Expectation Maximization
+#' Corrected Observation Process for Latent Block Model
 #'
 #' @param R observed connectivity matrix
 #' @param Q1 number of row clusters
@@ -94,10 +96,10 @@ LBM_VEM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 #' @param tau2 initial clustering of columns
 #' @param param list of parameters
 #'
-#' @return Estimated LBM parameters, clustering, lambda and mu
+#' @importFrom
+#' @return Estimated LBM parameters, clustering, lambda and mu for a given number of groups.
 #' @export
 #'
-#' @examples
 CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 
   param <- list(
