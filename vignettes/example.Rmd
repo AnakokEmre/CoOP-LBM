@@ -165,7 +165,7 @@ rob2 = round(robustness_lbm(con =model2$pi,pi = model2$alpha1,rho =model2$alpha2
 
 RMSE_lambda = sqrt(mean((C1[obsrow]-model2$lambda)**2))
 RMSE_mu = sqrt(mean((C2[obscol]-model2$mu)**2))
-RMSE_lambda_mu_G = sqrt(mean((N0[obsrow,obscol]-model2$lambda_mu)**2))
+RMSE_lambda_mu_G = sqrt(mean((N0[obsrow,obscol]-model2$lambda_mu_G)**2))
 
 #________________AUC________________
 
@@ -203,7 +203,7 @@ plot(C1[obsrow],model2$lambda,main = "Lambda",xlab = "Theorical",ylab="Estimated
 abline(0,1,lty=2)
 plot(C2[obscol],model2$mu,main = "Mu",xlab = "Theorical",ylab="Estimated")
 abline(0,1,lty=2)
-plot(N0[obsrow,obscol],model2$lambda_mu,main = "Lambda Mu G",xlab = "Theorical",ylab="Estimated")
+plot(N0[obsrow,obscol],model2$lambda_mu_G,main = "Lambda Mu G",xlab = "Theorical",ylab="Estimated")
 abline(0,1,lty=2)
 
 plotMyMatrix(V,clustering = list(row=model1$cluster1,col=model1$cluster2),plotOptions = list(title="LBM clustering",line.width=1))
@@ -394,7 +394,7 @@ rob2 = round(robustness_lbm(con =model2$pi,pi = model2$alpha1,rho =model2$alpha2
 
 RMSE_lambda = sqrt(mean((C1[obsrow]-model2$lambda)**2))
 RMSE_mu = sqrt(mean((C2[obscol]-model2$mu)**2))
-RMSE_lambda_mu_G = sqrt(mean((N0[obsrow,obscol]-model2$lambda_mu)**2))
+RMSE_lambda_mu_G = sqrt(mean((N0[obsrow,obscol]-model2$lambda_mu_G)**2))
 
 #________________AUC________________
 
