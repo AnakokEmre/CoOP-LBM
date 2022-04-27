@@ -2,7 +2,7 @@
 
 
 #' LBMbar
-#'
+#' @noRd
 #' @param X numeric vector or matrix
 #'
 #' @return 1-X
@@ -19,10 +19,10 @@ LBMbar <- function(X) {
 
 
 #'Softmax
-#'
+#' @noRd
 #' @param x numeric vector or matrix
 #'
-#' @return softmax function applied to the vector or matrix
+#' @return Softmax function applied to the vector or matrix
 #' @export
 #' @examples
 #'
@@ -37,11 +37,11 @@ LBMbar <- function(X) {
 
 
 #' Check boundaries
-#'
+#' @noRd
 #' @param x numeric vector or matrix
 #' @param zero smallest tolerance allowed
 #' @export
-#' @return round element too close of zero or one to a value in ]0,1[
+#' @return Round element too close of zero or one to a value in ]0,1[
 #' @examples
 #' a<- c(0.2,0.5,0)
 #' log(a)
@@ -56,11 +56,11 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
 
 
 #' Clustering indicator
-#'
+#' @noRd
 #' @param clustering vector of labels
 #' @param k integer of maximum number of labels
 #' @export
-#' @return clustering indicator with k column
+#' @return Clustering indicator with k column
 #' @examples a <- c(1,1,1,2,2,2,3,3)
 #' clustering_indicator(a,3)
 #' clustering_indicator(a,4)
@@ -77,12 +77,13 @@ clustering_indicator <- function(clustering,k) {
 
 #' Clustering initialization
 #'
+#'
 #' @param connectivity Binary matrix
 #' @param Q1 number of clusters for rows
 #' @param Q2 number of clusters for columns
 #' @param type type of initialization : "hierarchical_clust", "spectral_clust" or "kmeans_clust"
 #'
-#' @return list containing an initial clustering for rows and columns
+#' @return List containing an initial clustering for rows and columns
 #' @import stats
 #' @export
 #' @examples a<- matrix(0,10,10)
@@ -163,17 +164,17 @@ clustinit_LBM<-function(connectivity,Q1,Q2,type="hierarchical_clust"){
 }
 
 #' Membership to clustering
-#'
+#' @noRd
 #' @param membership a clustering indicator matrix
 #'
-#' @return the clustering associated to the matrix
+#' @return Clustering associated to the matrix
 
 membertoclust<-function(membership){
   return(apply(membership,1,which.max))
 }
 
 #' LBM_plot
-#'
+#' @noRd
 #' @param models
 #'
 #' @return plot of the ICL of the models contained in models
@@ -195,10 +196,10 @@ LBM_plot<-function(models){
 
 
 #' Memberships
-#'
+#' @noRd
 #' @param tau
 #'
-#' @return hard clustering indicator of a soft clustering
+#' @return Hard clustering indicator of a soft clustering
 #' @export
 #' @examples a<- matrix(0,5,2)
 #' a[,1] = runif(5)
@@ -218,7 +219,7 @@ memberships = function(tau) {
 
 
 #' Update tau for VEM
-#'
+#' @noRd
 #' @param connectivity binary matrix of connectivity
 #' @param alpha1 proportion of groups by row
 #' @param alpha2 proportion of groups by column
@@ -226,7 +227,7 @@ memberships = function(tau) {
 #' @param tau1 soft clustering of rows
 #' @param tau2 soft clustering of columns
 #' @export
-#' @return new estimation of tau
+#' @return New estimation of tau
 
 LBM_update_tau<-function(connectivity,alpha1,alpha2,pi,tau1,tau2){
   barconnectivity=LBMbar(connectivity)
@@ -257,12 +258,12 @@ LBM_update_tau<-function(connectivity,alpha1,alpha2,pi,tau1,tau2){
 
 
 #' Update pi for VEM
-#'
+#' @noRd
 #' @param connectivity binary matrix of connectivity
 #' @param tau1 soft clustering of rows
 #' @param tau2 soft clustering of columns
 #' @export
-#' @return new estimation of pi
+#' @return New estimation of pi
 LBM_update_pi = function(connectivity,tau1,tau2) {
   N1<-dim(connectivity)[1]
   N2<-dim(connectivity)[2]
@@ -272,22 +273,22 @@ LBM_update_pi = function(connectivity,tau1,tau2) {
 
 
 #' Update alpha for VEM
-#'
+#' @noRd
 #' @param tau soft clustering (row or column)
 #' @export
-#' @return new estimation of alpha (row or column)
+#' @return New estimation of alpha (row or column)
 LBM_update_alpha = function(tau) {
   alpha <- check_boundaries(colMeans(tau))
   return(alpha)
 }
 
 
-#' Update alpha for Gibbs
-#'
+#' Update alpha for SEM
+#' @noRd
 #' @param Z clustering (row or column)
 #' @param Q number of group (row or column)
 #' @export
-#' @return new estimation of alpha or beta
+#' @return New estimation of alpha or beta
 
 LBM_update_alpha3 = function(Z,Q) {
   a = factor(Z, levels= 1:Q)
@@ -295,15 +296,15 @@ LBM_update_alpha3 = function(Z,Q) {
 }
 
 
-#' Update pi for Gibbs
-#'
+#' Update pi for SEM
+#' @noRd
 #' @param connectivity binary connectivity matrix
 #' @param Z1 row clustering
 #' @param Z2 column clustering
 #' @param Q1 number of groups for rows
 #' @param Q2 number of groups for columns
 #'
-#' @return new value of pi given the parameters
+#' @return New value of pi given the parameters
 #' @export
 LBM_update_pi3 = function(connectivity,Z1,Z2,Q1,Q2){
   a=factor(Z1, levels=1:Q1)
@@ -314,13 +315,13 @@ LBM_update_pi3 = function(connectivity,Z1,Z2,Q1,Q2){
 
 
 #' Update lambda and mu
-#'
+#' @noRd
 #' @param rowSumsR sum of observation by row
 #' @param colSumsR sum of observation by column
 #' @param connectivity binary connectivity matrix
 #' @param fixPointIter number of iteration for the fixed point algorithm
 #'
-#' @return list containing the estimation of lambda_i, mu_j x G, and the matrix lambda_i x mu_j x G
+#' @return List containing the estimation of lambda_i, mu_j x G, and the matrix lambda_i x mu_j x G
 #' @export
 LBM_update_lambda_mu = function(rowSumsR,colSumsR,connectivity,fixPointIter=3){
   lambda_i = rep(1,dim(connectivity)[1])
@@ -336,15 +337,15 @@ LBM_update_lambda_mu = function(rowSumsR,colSumsR,connectivity,fixPointIter=3){
 }
 
 
-#' Update connectivity
-#'
+#' Update connectivity for SEM
+#' @noRd
 #' @param V binary connectivity matrix of the observed matrix
 #' @param Z1 clustering by row
 #' @param Z2  clustering by column
 #' @param pi probability of connection between groups
 #' @param lambda_mu matrix containing the product lambda_i x mu_j x G
 #' @export
-#' @return simulation of a connectivity matrix with missing links added
+#' @return Simulation of a connectivity matrix with missing links added
 #' @importFrom Rlab rbern
 
 
@@ -352,7 +353,7 @@ LBM_update_connectivity3 = function(V,Z1,Z2,pi,lambda_mu){
   pi_ij = pi[Z1,Z2][V==0]
   exp_lambda_mu = exp(-lambda_mu[V==0])
   P_ij = pi_ij*exp_lambda_mu/((1-pi_ij)+pi_ij*exp_lambda_mu)
-  simulation = rbern(length(P_ij),p=P_ij)
+  simulation = Rlab::rbern(length(P_ij),p=P_ij)
   connectivity = V
   connectivity[V==0] = simulation
   connectivity
@@ -360,8 +361,8 @@ LBM_update_connectivity3 = function(V,Z1,Z2,pi,lambda_mu){
 }
 
 
-#' Update clustering
-#'
+#' Update clustering for SEM
+#' @noRd
 #' @param R matrix of observation
 #' @param alpha1 proportion of clustering by row
 #' @param alpha2 proportion of clustering by column
@@ -370,8 +371,7 @@ LBM_update_connectivity3 = function(V,Z1,Z2,pi,lambda_mu){
 #' @param Z1 clustering by row
 #' @param Z2 clustering by column
 #' @param lfactorialR matrix of log factorial of the R matrix
-#' @export
-#' @return simulate new values for Z1 and Z2 given the parameters
+#' @return Simulate new values for Z1 and Z2 given the parameters
 #' @export
 LBM_update_Z<-function(R,alpha1,alpha2,pi,lambda_mu,Z1,Z2,lfactorialR){
   Q1=length(alpha1)
@@ -447,15 +447,15 @@ LBM_update_Z<-function(R,alpha1,alpha2,pi,lambda_mu,Z1,Z2,lfactorialR){
 }
 
 
-#' Update connectivity
-#'
+#' Probability of missing data
+#' @noRd
 #' @param V binary connectivity matrix
 #' @param Z1 clustering of rows
 #' @param Z2 clustering of columns
 #' @param pi matrix of probabilities of connections between groups
 #' @param lambda_mu matrix of all the coefficient lambda x mu x G
 #'
-#' @return probability of M = 1 given that V = 0. Only return the values where V = 0
+#' @return Probability of M = 1 given that V = 0. Only return the values where V = 0
 #' @export
 LBM_connectivity_prob3= function(V,Z1,Z2,pi,lambda_mu){
   pi_ij = pi[Z1,Z2][V==0]
@@ -465,7 +465,7 @@ LBM_connectivity_prob3= function(V,Z1,Z2,pi,lambda_mu){
 
 
 #' ICL for LBM
-#'
+#' @noRd
 #' @param members1 clustering indicator of rows
 #' @param members2 clustering indicator of column
 #' @param alpha1 proportion of group by row
@@ -473,7 +473,7 @@ LBM_connectivity_prob3= function(V,Z1,Z2,pi,lambda_mu){
 #' @param pi matrix of probabilities of connections between groups
 #' @param connectivity binary connectivity matrix
 #'
-#' @return estimation of ICL for classic LBM
+#' @return Estimation of ICL for classic LBM
 #' @export
 LBM_ICL<-function(members1,members2,alpha1,alpha2,pi, connectivity){
   Q1=length(alpha1)
@@ -488,16 +488,16 @@ LBM_ICL<-function(members1,members2,alpha1,alpha2,pi, connectivity){
 
 
 #' ICL for CoOP-LBM (binary)
-#'
+#' @noRd
 #' @param members1 clustering indicator of rows
 #' @param members2 clustering indicator of column
 #' @param alpha1 proportion of group by row
 #' @param alpha2 proportion of group by column
 #' @param pi matrix of probabilities of connections between groups
 #' @param R observed connectivity matrix
-#' @param lambdamu matrix of lambda_i x lambda_j
+#' @param lambdamu matrix of lambda_i x mu_j x G
 #'
-#' @return estimation of ICL for EDD LBM using the likelihood not taking into account the Poisson distribution
+#' @return Estimation of ICL for CoOP-LBM using the likelihood not taking into account the Poisson distribution
 #' @export
 LBM_ICL_2<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
   V = data.matrix(1*(R>0))
@@ -517,16 +517,16 @@ LBM_ICL_2<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
 
 
 #' ICL for CoOP-LBM (Poisson)
-#'
+#' @noRd
 #' @param members1 clustering indicator of rows
 #' @param members2 clustering indicator of column
 #' @param alpha1 proportion of group by row
 #' @param alpha2 proportion of group by column
 #' @param pi matrix of probabilities of connections between groups
 #' @param R observed connectivity matrix
-#' @param lambdamu matrix of lambda_i x lambda_j
+#' @param lambdamu matrix of lambda_i x mu_j x G
 #'
-#' @return estimation of ICL for EDD LBM using the likelihood taking into account the Poisson distribution
+#' @return Estimation of ICL for CoOP-LBM using the likelihood taking into account the Poisson distribution
 #' @export
 LBM_ICL_3<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
   V = 1*(R>0)
@@ -549,8 +549,8 @@ LBM_ICL_3<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
 
 
 
-#' Variational ICL for EDD-LBM
-#'
+#' Variational ICL for CoOP-LBM
+#' @noRd
 #' @param members1 soft clustering of rows
 #' @param members2 soft clustering of column
 #' @param alpha1 proportion of group by row
@@ -559,7 +559,7 @@ LBM_ICL_3<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
 #' @param R observed connectivity matrix
 #' @param lambdamu matrix of lambda_i x lambda_j
 #'
-#' @return Variational estimation of ICL for EDD LBM using the likelihood  not taking into account the Poisson distribution
+#' @return Variational estimation of ICL for CoOP-LBM using the likelihood  not taking into account the Poisson distribution
 #' @export
 LBM_ICL_2.2<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
   V = data.matrix(1*(R>0))
@@ -592,7 +592,7 @@ LBM_ICL_2.2<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
 #'
 #' @param Matrix
 #'
-#' @return NODF of the matrix
+#' @return List of NODF of the matrix,averaged by row, by column, and for the full matrix
 #' @export
 NODF = function(Matrix){
   M = Matrix[rowSums(Matrix)>0,colSums(Matrix)>0]

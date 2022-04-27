@@ -19,10 +19,10 @@ LBM_ICL_2(members1, members2, alpha1, alpha2, pi, R, lambdamu)
 
 \item{R}{observed connectivity matrix}
 
-\item{lambdamu}{matrix of lambda_i x lambda_j}
+\item{lambdamu}{matrix of lambda_i x mu_j x G}
 }
 \value{
-estimation of ICL for EDD LBM using the likelihood not taking into account the Poisson distribution
+estimation of ICL for CoOP-LBM using the likelihood not taking into account the Poisson distribution
 }
 \description{
 ICL for CoOP-LBM (binary)

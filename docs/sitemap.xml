@@ -94,6 +94,18 @@
     <loc>/reference/dot-softmax.html</loc>
   </url>
   <url>
+    <loc>/reference/fit_supervised_CoOP_LBM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/fit_supervised_LBM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/fit_unsupervised_CoOP_LBM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/fit_unsupervised_LBM.html</loc>
+  </url>
+  <url>
     <loc>/reference/forward_explo.html</loc>
   </url>
   <url>

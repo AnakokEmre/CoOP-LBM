@@ -4,12 +4,12 @@
 \name{CoOPLBM-package}
 \alias{CoOPLBM}
 \alias{CoOPLBM-package}
-\title{CoOPLBM: What the Package Does (One Line, Title Case)}
+\title{CoOPLBM: Corrected Observation Process for Latent Block Model}
 \description{
-What the package does (one paragraph).
+By taking into account the counting data, it is possible to correct a latent block model (LBM) where data could have been missing. This package allows to fit a CoOP-LBM on a bipartite graph, represented as a contigency table with the number of interaction observed.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Emre ANAKOK \email{emre.anakok@agroparistech.fr} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
 
 }
 \keyword{internal}

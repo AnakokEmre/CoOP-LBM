@@ -14,7 +14,7 @@
 #'
 #' @import parallel
 
-LBM_VEM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
+fit_supervised_LBM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
   param <- list(
     maxIter       = 50,
     fixPointIter  = 3,
@@ -95,12 +95,12 @@ LBM_VEM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 #' @param Q2 number of columns clusters
 #' @param Z1 initial clustering of rows
 #' @param Z2 initial clustering of columns
-#' @param param list of parameters
+#' @param estimOptions list of parameters
 #'
-#' @return Estimated LBM parameters, clustering, lambda and mu for a given number of groups.
+#' @return Estimated LBM parameters, clustering, lambda, mu and G for a given number of groups.
 #' @export
 #'
-CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
+fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 
   param <- list(
     maxIter       = 50,
@@ -228,7 +228,7 @@ CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 
 
 #' forward exploration
-#'
+#' @noRd
 #' @param models list of models
 #' @param k1 number of row clusters
 #' @param k2 number of column clusters
@@ -236,7 +236,7 @@ CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 #' @param f method (VEM or EDD-VEM)
 #' @param param list of parameters
 #' @export
-#' @return forward exploration of a given list of model
+#' @return Forward exploration of a given list of model
 forward_explo<-function(models,k1,k2,connectivity,f,param){
   cl01<-membertoclust(models[[paste(as.character(k1),as.character(k2),sep="-")]]$membership1)
   cl02<-membertoclust(models[[paste(as.character(k1),as.character(k2),sep="-")]]$membership2)
@@ -288,7 +288,7 @@ forward_explo<-function(models,k1,k2,connectivity,f,param){
 }
 
 #' backward exploration
-#'
+#' @noRd
 #' @param models list of models
 #' @param k1 number of row clusters
 #' @param k2 number of column clusters
@@ -297,7 +297,7 @@ forward_explo<-function(models,k1,k2,connectivity,f,param){
 #' @param param list of parameters
 #' @export
 #'
-#' @return forward exploration of a given list of model
+#' @return Forward exploration of a given list of model
 backward_explo<-function(models,k1,k2,connectivity,f,param){
   cl01<-membertoclust(models[[paste(as.character(k1),as.character(k2),sep="-")]]$membership1)
   cl02<-membertoclust(models[[paste(as.character(k1),as.character(k2),sep="-")]]$membership2)
@@ -337,13 +337,13 @@ backward_explo<-function(models,k1,k2,connectivity,f,param){
 }
 
 
-#' Main algorithm for LBM estimation using VEM for binary data
+#' Main algorithm for LBM estimation using binary data
 #'
 #' @param connectivity binary connectivity
 #' @param estimOptions list of options about estimation
 #' @param exploOptions list of options about exploration
 #'
-#' @return list of model with different number of cluster
+#' @return List of model with different number of cluster
 #' @import robber
 #' @export
 #'
@@ -373,8 +373,8 @@ backward_explo<-function(models,k1,k2,connectivity,f,param){
 #'R_obs = R[obsrow,obscol]
 #'M_obs = M[obsrow,obscol]
 #' R = M*N
-#' models=LBM_main_VEM(R,exploOptions=list(plot=F))
-LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
+#' models=fit_unsupervised_LBM(R,exploOptions=list(plot=F))
+fit_unsupervised_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
 
   current_estimOptions <- list(
     maxIter       = 50,
@@ -414,7 +414,7 @@ LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
         cl0=clustinit_LBM(V,k[1],k2,current_exploOptions$initMethod)
         Z1=cl0[[1]]
         Z2=cl0[[2]]
-        model<-LBM_VEM(V,k[1],k2,Z1,Z2,current_estimOptions)
+        model<-fit_supervised_LBM(V,k[1],k2,Z1,Z2,current_estimOptions)
         return(model)
       },mc.cores = current_estimOptions$cores)
       k2max=which.max(sapply(mods, function(mod) mod$ICL))
@@ -435,7 +435,7 @@ LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
         cl0=clustinit_LBM(V,k1,k[2],current_exploOptions$initMethod)
         Z1=cl0[[1]]
         Z2=cl0[[2]]
-        model<-LBM_VEM(V,k1,k[2],Z1,Z2,current_estimOptions)
+        model<-fit_supervised_LBM(V,k1,k[2],Z1,Z2,current_estimOptions)
         return(model)
       },mc.cores = current_estimOptions$cores)
       k1max=which.max(sapply(mods, function(mod) mod$ICL))
@@ -482,7 +482,7 @@ LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
       for (k1 in 1:(k[1]-1)){
         for (k2 in 1:(k[2]-1)){
           if (current_exploOptions$verbosity){print(paste('forward','k={',k1,',',k2,'}'))}
-          model<-forward_explo(models,k1,k2,V,LBM_VEM,current_estimOptions)
+          model<-forward_explo(models,k1,k2,V,fit_supervised_LBM,current_estimOptions)
 
           if (model[[1]]$ICL>models[[paste(as.character(k1+1),as.character(k2),sep="-")]]$ICL){
             models[[paste(as.character(k1+1),as.character(k2),sep="-")]]=model[[1]]
@@ -505,7 +505,7 @@ LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
       for (k1 in c(k[1]:3)){
         for (k2 in c(k[2]:3)){
           if (current_exploOptions$verbosity){print(paste('backward','k={',k1,',',k2,'}'))}
-          model<-backward_explo(models,k1,k2,V,LBM_VEM,current_estimOptions)
+          model<-backward_explo(models,k1,k2,V,fit_supervised_LBM,current_estimOptions)
 
           if (model[[1]]$ICL>models[[paste(as.character(k1-1),as.character(k2),sep="-")]]$ICL){
             models[[paste(as.character(k1-1),as.character(k2),sep="-")]]=model[[1]]
@@ -537,13 +537,13 @@ LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
 }
 
 
-#' Main algorithm for LBM estimation using VEM
+#' Main algorithm for CoOP-LBM estimation using counting data
 #'
 #' @param connectivity binary connectivity
 #' @param estimOptions list of options about estimation
 #' @param exploOptions list of options about exploration
 #'
-#' @return list of model with different number of cluster
+#' @return List of model with different number of cluster
 #' @import robber
 #' @export
 #'
@@ -573,10 +573,10 @@ LBM_main_VEM<-function(connectivity,estimOptions=list(),exploOptions=list()){
 #'R_obs = R[obsrow,obscol]
 #'M_obs = M[obsrow,obscol]
 #' R = M*N
-#' models=main_CoOP_LBM(R,exploOptions=list(plot=F))
+#' models=fit_unsupervised_CoOP_LBM(R,exploOptions=list(plot=F))
 #'
 
-main_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
+fit_unsupervised_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
 
   current_estimOptions <- list(
     maxIter       = 50,
@@ -619,7 +619,7 @@ main_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
         cl0=clustinit_LBM(V,k[1],k2,current_exploOptions$initMethod)
         tau1=cl0[[1]]
         tau2=cl0[[2]]
-        model<-CoOP_LBM(connectivity,k[1],k2,tau1,tau2,current_estimOptions)
+        model<-fit_supervised_CoOP_LBM(connectivity,k[1],k2,tau1,tau2,current_estimOptions)
         return(model)
       },mc.cores = current_estimOptions$cores)
 
@@ -645,7 +645,7 @@ main_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
         cl0=clustinit_LBM(V,k1,k[2],current_exploOptions$initMethod)
         tau1=cl0[[1]]
         tau2=cl0[[2]]
-        model<-CoOP_LBM(connectivity,k1,k[2],tau1,tau2,current_estimOptions)
+        model<-fit_supervised_CoOP_LBM(connectivity,k1,k[2],tau1,tau2,current_estimOptions)
         return(model)
       },mc.cores = current_estimOptions$cores)
 
@@ -696,7 +696,7 @@ main_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
       for (k1 in 1:(k[1]-1)){
         for (k2 in 1:(k[2]-1)){
           if (current_exploOptions$verbosity){print(paste('forward','k={',k1,',',k2,'}'))}
-          model<-forward_explo(models,k1,k2,connectivity,CoOP_LBM,current_estimOptions)
+          model<-forward_explo(models,k1,k2,connectivity,fit_supervised_CoOP_LBM,current_estimOptions)
 
           if (model[[1]]$ICL>models[[paste(as.character(k1+1),as.character(k2),sep="-")]]$ICL){
             models[[paste(as.character(k1+1),as.character(k2),sep="-")]]=model[[1]]
@@ -719,7 +719,7 @@ main_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
       for (k1 in c(k[1]:3)){
         for (k2 in c(k[2]:3)){
           if (current_exploOptions$verbosity){print(paste('backward','k={',k1,',',k2,'}'))}
-          model<-backward_explo(models,k1,k2,connectivity,CoOP_LBM,current_estimOptions)
+          model<-backward_explo(models,k1,k2,connectivity,fit_supervised_CoOP_LBM,current_estimOptions)
 
           if (model[[1]]$ICL>models[[paste(as.character(k1-1),as.character(k2),sep="-")]]$ICL){
             models[[paste(as.character(k1-1),as.character(k2),sep="-")]]=model[[1]]
@@ -756,7 +756,7 @@ main_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
 #'
 #' @param models a list of model with their ICL
 #'
-#' @return which model has the best ICL
+#' @return index of the model which has the best ICL
 #' @export
 #'
 #' @examples
@@ -786,8 +786,8 @@ main_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOptions=list()){
 #'R_obs = R[obsrow,obscol]
 #'M_obs = M[obsrow,obscol]
 #' R = M*N
-#' models=main_CoOP_LBM(R,exploOptions=list(plot=F))
-#' print(best_model(models))
+#' models=fit_unsupervised_CoOP_LBM(R,exploOptions=list(plot=F))
+#' print(best_ICL(models))
 best_ICL = function(models){
   ICL=unlist(lapply(models, '[[','ICL'))
   k=which.max(ICL)

@@ -42,6 +42,6 @@ obscol = colSums(R)>0
 R_obs = R[obsrow,obscol]
 M_obs = M[obsrow,obscol]
 R = M*N
-models=main_CoOP_LBM(R,exploOptions=list(plot=F))
-print(best_model(models))
+models=fit_unsupervised_CoOP_LBM(R,exploOptions=list(plot=F))
+print(best_ICL(models))
 }

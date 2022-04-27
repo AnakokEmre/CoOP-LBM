@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{LBM_ICL_2.2}
 \alias{LBM_ICL_2.2}
-\title{Variational ICL for EDD-LBM}
+\title{Variational ICL for CoOP-LBM}
 \usage{
 LBM_ICL_2.2(members1, members2, alpha1, alpha2, pi, R, lambdamu)
 }
@@ -22,8 +22,8 @@ LBM_ICL_2.2(members1, members2, alpha1, alpha2, pi, R, lambdamu)
 \item{lambdamu}{matrix of lambda_i x lambda_j}
 }
 \value{
-Variational estimation of ICL for EDD LBM using the likelihood  not taking into account the Poisson distribution
+Variational estimation of ICL for CoOP-LBM using the likelihood  not taking into account the Poisson distribution
 }
 \description{
-Variational ICL for EDD-LBM
+Variational ICL for CoOP-LBM
 }

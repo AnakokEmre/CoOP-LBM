@@ -10,7 +10,7 @@ NODF(Matrix)
 \item{Matrix}{}
 }
 \value{
-NODF of the matrix
+list of NODF of the matrix,averaged by row, by column, and for the full matrix
 }
 \description{
 Nestedness metric based on Overlap and Decreasing Fill
