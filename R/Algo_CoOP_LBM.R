@@ -214,7 +214,7 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
   res$lambda_mu_G = res$lambda%*%t(res_mu)
   res$G = max(res_mu)
   res$connectivity_prob=V
-  res$connectivity_prob[V==0] = LBM_connectivity_prob3(V,res$cluster1,res$cluster2,res$pi,res$lambda_mu)
+  res$connectivity_prob[V==0] = LBM_connectivity_prob3(V,res$cluster1,res$cluster2,res$pi,res$lambda_mu_G)
   res$row_coverage = rowSums(V)/rowSums(res$connectivity_prob)
   res$col_coverage = colSums(V)/colSums(res$connectivity_prob)
 
