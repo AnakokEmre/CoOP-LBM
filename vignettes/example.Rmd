@@ -1,8 +1,8 @@
 ---
-title: "example"
+title: "Example"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{example}
+  %\VignetteIndexEntry{Example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -10,7 +10,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  eval = FALSE,
+  eval = T,
   comment = "#>"
 )
 ```
@@ -27,8 +27,7 @@ library(gridExtra)
 library(CoOPLBM)
 ```
 
-```{r}
-
+```{r initialization1}
 n1 = 100
 n2 = 100
 Q1 = 3
@@ -66,21 +65,21 @@ hist(C2)
 plotMyMatrix(M,clustering = list(row=Z1,col=Z2),plotOptions = list(line.width=1,title = "Complete matrix"))
 plotMyMatrix(V,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(line.width=1,title = "Observed matrix (binary)"))
 plotMyMatrix(R_obs,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(line.width=1,title = "Observed matrix"))
+
 ```
 
 
 
-```{r}
-try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=T))
-try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=T))
+```{r, fit1}
+try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
+try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F))
 
 model1 = try1[[best_ICL(try1)]]
 model2 = try2[[best_ICL(try2)]]
 ```
 
 
-```{r}
-
+```{r print_score1}
 #________________ARI SCORE________________
 
 
@@ -148,18 +147,6 @@ MOD_CoOP = round(NOS(V3)$mod,3)
 MOD_Random = round(NOS(V4)$mod,3)
 
 
-
-#________________ROBUSTNESS________________
-
-rob0= round(robustness_lbm(con = P,pi = c(1/3,1/3,1/3),rho = c(1/3,1/3,1/3),nr = 100,nc = 100)$auc,3)
-rob1 = round(robustness_lbm(con =model1$pi,pi = model1$alpha1,rho =model1$alpha2,nr =dim(V)[1],nc = dim(V)[2])$auc,3)
-P_LBM = model1$pi*mean(M)/mean(V)
-P_LBM[P_LBM>1]=1
-rob1.2 = round(robustness_lbm(con =P_LBM,pi = model1$alpha1,rho =model1$alpha2,nr =dim(V)[1],nc = dim(V)[2])$auc,3)
-rob2 = round(robustness_lbm(con =model2$pi,pi = model2$alpha1,rho =model2$alpha2,nr =dim(V)[1],nc = dim(V)[2])$auc,3)
-
-
-
 #________________RMSE________________
 
 
@@ -191,7 +178,6 @@ print(paste0("RMSE of column coverage | Chao = " ,round(RMSE_chao_C,3) ," | CoOP
 
 print(paste0("NODF | Complete matrix = " ,NODF_M," | Observed matrix = ", NODF_V , " | LBM = ",NODF_LBM," | CoOP-LBM = ",NODF_CoOP," | Random = ", NODF_Random   ) )
 print(paste0("Modularity | Complete matrix = " ,MOD_M ," | Observed matrix = ", MOD_V , " | LBM = ",MOD_LBM," | CoOP-LBM = ",MOD_CoOP," | Random = ",MOD_Random ) )
-print(paste0("Robustness | Complete matrix = " ,rob0 ," | LBM = ", rob1 , " | Corrected LBM = ",rob1.2," | CoOP-LBM = ",rob2))
 
 print(paste0("Estimated G : ",round(model2$G,3)))
 print(paste0("RMSE | Lambda = ",round(RMSE_lambda,3)," | Mu = ",round(RMSE_mu,3)))
@@ -212,10 +198,10 @@ plotMyMatrix(V,clustering = list(row=model2$cluster1,col=model2$cluster2),plotOp
 plotMyMatrix(proba_connect1,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(title="LBM probabilities of missing interaction",line.width=1))
 plotMyMatrix(proba_connect2,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(title="CoOP-LBM probabilities of missing interaction",line.width=1))
 ```
+
 ## Simulation for K iteration
 
-```{r}
-
+```{r initialization2}
 n1 = 100
 n2 = 100
 Q1 = 3
@@ -227,10 +213,9 @@ P =matrix(c(0.95,0.75,0.5,
 
 alpha1 = c(1/3,1/3,1/3)
 alpha2 = c(1/3,1/3,1/3)
-
 ```
 
-```{r}
+```{r initialization2.2 }
 result = data.frame(Q1_LBM=numeric(),
                    Q2_LBM=numeric(),      
                    Q1_CoOP= numeric(),
@@ -274,7 +259,7 @@ result = data.frame(Q1_LBM=numeric(),
 ```
 
 
-```{r }
+```{r fit2, cache=T}
 list_G = c(300,400) ### CHANGE THE LIST TO CHANGE THE EXPLORATION OF G
 K = 10 # NUMBER OF ITERATION FOR EACH G
 
@@ -427,11 +412,12 @@ print(paste0("RMSE | Lambda = ",round(RMSE_lambda,3)," | Mu = ",round(RMSE_mu,3)
 print(paste0("RMSE | Lambda x Mu x G  = ",round(RMSE_lambda_mu_G,3)))
 print(paste0("AUC | LBM  = ",round(AUC_LBM,3)," | CoOP-LBM = ",round(AUC_CoOP,3) ))
 
+
+print("##########")
+}
 result[nrow(result)+1,] = c(dim(model1$pi)[1],dim(model1$pi)[2],dim(model2$pi)[1],dim(model2$pi)[2],
                             ARIL1,ARIC1,ARIL2,ARIC2,
                             Connectivity_M,Connectivity_V,Connectivity_LBM,Connectivity_CoOP,Chao,RMSE_chao_L,RMSE_chao_C,RMSE_CoOP_L,RMSE_CoOP_C,NODF_M,NODF_V,NODF_LBM,NODF_CoOP,NODF_Random,MOD_M,MOD_V,MOD_LBM,MOD_CoOP,MOD_Random,rob0,rob1,rob1.2,rob2,G,model2$G,RMSE_lambda,RMSE_mu,RMSE_lambda_mu_G,AUC_LBM,AUC_CoOP)        
-print("##########")
-  }
 }}
 
 ```
@@ -458,7 +444,7 @@ grid.arrange(p1,p2,ncol=2)
 
 
 
-```{r}
+```{r }
 tbl1 <- with(result, table(Q1_LBM, G))
 p3=ggplot(as.data.frame(tbl1), aes(factor(G), Freq, fill = Q1_LBM)) +    
 theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+labs(x="G")+
@@ -603,6 +589,7 @@ p14 <- ggplot(df10_long, aes(x=factor(G),y=value,fill=variable))+
   geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of lambda and mu") + scale_fill_discrete(labels = c("Lambda","Mu"))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
 p14
 ```
+
 ```{r}
 df11 = result[c("G","G_CoOP")]
 

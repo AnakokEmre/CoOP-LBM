@@ -1,0 +1,26 @@
+---
+title: "Available options"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Available options}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(CoOPLBM)
+```
+
+
+
+```{r}
+
+```
+

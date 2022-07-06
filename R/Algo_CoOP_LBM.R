@@ -1,13 +1,13 @@
 
-#CoOP LBM
+#LBM
 #' Variational Expectation Maximization for LBM
 #'
-#' @param connectivity binary matrix of connectivity
-#' @param Q1 number of row clusters
-#' @param Q2 number of column clusters
-#' @param Z1 initial clustering of rows
-#' @param Z2 initial clustering of columns
-#' @param param list of parameters
+#' @param connectivity Binary matrix of connectivity
+#' @param Q1 Number of row clusters
+#' @param Q2 Number of column clusters
+#' @param Z1 Initial clustering of rows
+#' @param Z2 Initial clustering of columns
+#' @param param List of parameters
 #'
 #' @return Estimated LBM parameters and clustering
 #' @export
@@ -90,12 +90,12 @@ fit_supervised_LBM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list(
 
 #' Corrected Observation Process for Latent Block Model
 #'
-#' @param R observed connectivity matrix
-#' @param Q1 number of row clusters
-#' @param Q2 number of columns clusters
-#' @param Z1 initial clustering of rows
-#' @param Z2 initial clustering of columns
-#' @param estimOptions list of parameters
+#' @param R Counting data connectivity matrix
+#' @param Q1 Number of row clusters
+#' @param Q2 Number of columns clusters
+#' @param Z1 Initial clustering of rows
+#' @param Z2 Initial clustering of columns
+#' @param estimOptions List of parameters
 #'
 #' @return Estimated LBM parameters, clustering, lambda, mu and G for a given number of groups.
 #' @export
@@ -215,6 +215,8 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
   res$G = max(res_mu)
   res$connectivity_prob=V
   res$connectivity_prob[V==0] = LBM_connectivity_prob3(V,res$cluster1,res$cluster2,res$pi,res$lambda_mu_G)
+  res$observation_prob = V
+  res$observation_prob[V==0] = (res$pi[res$cluster1,res$cluster2][V==0] * (1-exp(-res$lambda_mu_G[V==0])))
   res$row_coverage = rowSums(V)/rowSums(res$connectivity_prob)
   res$col_coverage = colSums(V)/colSums(res$connectivity_prob)
 
@@ -539,7 +541,7 @@ fit_unsupervised_LBM<-function(connectivity,estimOptions=list(),exploOptions=lis
 
 #' Main algorithm for CoOP-LBM estimation using counting data
 #'
-#' @param connectivity binary connectivity
+#' @param connectivity Counting data connectivity
 #' @param estimOptions list of options about estimation
 #' @param exploOptions list of options about exploration
 #'

@@ -4,6 +4,9 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/Available_options.html</loc>
+  </url>
+  <url>
     <loc>/articles/example.html</loc>
   </url>
   <url>
@@ -14,66 +17,6 @@
   </url>
   <url>
     <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CoOPLBM-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CoOP_LBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_ICL.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_ICL_2.2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_ICL_2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_ICL_3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_VEM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_connectivity_prob3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_main_VEM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_update_Z.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_update_alpha.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_update_alpha3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_update_connectivity3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_update_lambda_mu.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_update_pi.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_update_pi3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBM_update_tau.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LBMbar.html</loc>
-  </url>
-  <url>
-    <loc>/reference/NODF.html</loc>
   </url>
   <url>
     <loc>/reference/backward_explo.html</loc>
@@ -89,6 +32,12 @@
   </url>
   <url>
     <loc>/reference/clustinit_LBM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/CoOPLBM-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/CoOP_LBM.html</loc>
   </url>
   <url>
     <loc>/reference/dot-softmax.html</loc>
@@ -112,6 +61,57 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/LBMbar.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_connectivity_prob3.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_ICL.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_ICL_2.2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_ICL_2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_ICL_3.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_main_VEM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_plot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_update_alpha.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_update_alpha3.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_update_connectivity3.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_update_lambda_mu.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_update_pi.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_update_pi3.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_update_tau.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_update_Z.html</loc>
+  </url>
+  <url>
+    <loc>/reference/LBM_VEM.html</loc>
+  </url>
+  <url>
     <loc>/reference/logistic.html</loc>
   </url>
   <url>
@@ -125,6 +125,9 @@
   </url>
   <url>
     <loc>/reference/membertoclust.html</loc>
+  </url>
+  <url>
+    <loc>/reference/NODF.html</loc>
   </url>
   <url>
     <loc>/reference/quad_form.html</loc>
