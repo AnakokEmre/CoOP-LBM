@@ -1,0 +1,76 @@
+---
+title: "Example on other settings"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example on other settings}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(CoOPLBM)
+```
+
+To show the robustness of the developed algorithm for CoOP-LBM, a series of examples is available on this page, where the settings are different from the one defined in the article. The criterion used to compare the quality of the estimation is the AUC of the probability of finding the missing links in $M$
+
+```{r}
+n1 = 100
+n2 = 100
+Q1 = 3
+Q2 = 3
+P =matrix(c(0.95,0.75,0.5,
+                 0.75,0.5,0.5,
+                 0.5,0.5,0.05),Q1,Q2)
+
+
+alpha1 = c(1/3,1/3,1/3)
+alpha2 = c(1/3,1/3,1/3)
+G=300
+```
+
+
+
+```{r}
+simulation1=simulate_lbm(P,alpha1,alpha2,n1,n2)
+M = simulation1$A
+Z1 =simulation1$Z
+Z2 =simulation1$W
+C1 =rbeta(n1,0.3,1.5)
+C2 = rbeta(n2,0.3,1.5)
+C1 = C1/max(C1)
+C2 = C2/max(C2)
+N0=C1%*%t(C2)*G
+N=matrix(rpois(n1*n2,N0),nrow=n1)
+R = M*N
+
+obsrow = rowSums(R)>0
+obscol = colSums(R)>0
+R_obs = R[obsrow,obscol]
+M_obs = M[obsrow,obscol]
+Z1_obs = Z1[obsrow]
+Z2_obs = Z2[obscol]
+V = 1*(R_obs>0)
+try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
+try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F))
+
+model1 = try1[[best_ICL(try1)]]
+model2 = try2[[best_ICL(try2)]]
+
+proba_connect1 = model1$pi[model1$cluster1,model1$cluster2]
+proba_connect2 = model2$connectivity_prob
+
+AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+```
+
+
+

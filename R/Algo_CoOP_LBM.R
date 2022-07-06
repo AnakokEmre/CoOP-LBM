@@ -19,8 +19,7 @@ fit_supervised_LBM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list(
     maxIter       = 50,
     fixPointIter  = 3,
     threshold     = 1e-3,
-    cores         = 1,
-    ICL_function  = LBM_ICL_3,
+    ICL_function  = LBM_ICL,
     initMethod = "hierarchical_clust"
   )
   param[names(estimOptions)] <- estimOptions
@@ -341,11 +340,11 @@ backward_explo<-function(models,k1,k2,connectivity,f,param){
 
 #' Main algorithm for LBM estimation using binary data
 #'
-#' @param connectivity binary connectivity
-#' @param estimOptions list of options about estimation
-#' @param exploOptions list of options about exploration
+#' @param connectivity Binary connectivity matrix
+#' @param estimOptions List of options about estimation
+#' @param exploOptions List of options about exploration
 #'
-#' @return List of model with different number of cluster
+#' @return List of models fitted on different number of cluster
 #' @import robber
 #' @export
 #'
@@ -541,9 +540,9 @@ fit_unsupervised_LBM<-function(connectivity,estimOptions=list(),exploOptions=lis
 
 #' Main algorithm for CoOP-LBM estimation using counting data
 #'
-#' @param connectivity Counting data connectivity
-#' @param estimOptions list of options about estimation
-#' @param exploOptions list of options about exploration
+#' @param connectivity Counting data connectivity matrix
+#' @param estimOptions List of options about estimation
+#' @param exploOptions List of options about exploration
 #'
 #' @return List of model with different number of cluster
 #' @import robber
@@ -586,7 +585,7 @@ fit_unsupervised_CoOP_LBM<-function(connectivity,estimOptions=list(),exploOption
     fixPointIter  = 3,
     cores         = 1,
 
-    ICL_function  = LBM_ICL_2
+    ICL_function  = LBM_ICL_3
   )
   current_estimOptions[names(estimOptions)] <- estimOptions
 

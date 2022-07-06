@@ -11,14 +11,14 @@ fit_unsupervised_CoOP_LBM(
 )
 }
 \arguments{
-\item{connectivity}{binary connectivity}
+\item{connectivity}{Counting data connectivity}
 
 \item{estimOptions}{list of options about estimation}
 
 \item{exploOptions}{list of options about exploration}
 }
 \value{
-list of model with different number of cluster
+List of model with different number of cluster
 }
 \description{
 Main algorithm for CoOP-LBM estimation using counting data

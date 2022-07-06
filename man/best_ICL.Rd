@@ -10,7 +10,7 @@ best_ICL(models)
 \item{models}{a list of model with their ICL}
 }
 \value{
-which model has the best ICL
+index of the model which has the best ICL
 }
 \description{
 Best ICL

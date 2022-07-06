@@ -7,17 +7,17 @@
 fit_supervised_CoOP_LBM(R, Q1, Q2, Z1 = c(), Z2 = c(), estimOptions = list())
 }
 \arguments{
-\item{R}{observed connectivity matrix}
+\item{R}{Counting data connectivity matrix}
 
-\item{Q1}{number of row clusters}
+\item{Q1}{Number of row clusters}
 
-\item{Q2}{number of columns clusters}
+\item{Q2}{Number of columns clusters}
 
-\item{Z1}{initial clustering of rows}
+\item{Z1}{Initial clustering of rows}
 
-\item{Z2}{initial clustering of columns}
+\item{Z2}{Initial clustering of columns}
 
-\item{estimOptions}{list of parameters}
+\item{estimOptions}{List of parameters}
 }
 \value{
 Estimated LBM parameters, clustering, lambda, mu and G for a given number of groups.

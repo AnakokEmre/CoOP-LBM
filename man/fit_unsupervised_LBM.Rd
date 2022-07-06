@@ -18,7 +18,7 @@ fit_unsupervised_LBM(
 \item{exploOptions}{list of options about exploration}
 }
 \value{
-list of model with different number of cluster
+List of model with different number of cluster
 }
 \description{
 Main algorithm for LBM estimation using binary data

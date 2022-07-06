@@ -14,17 +14,17 @@ fit_supervised_LBM(
 )
 }
 \arguments{
-\item{connectivity}{binary matrix of connectivity}
+\item{connectivity}{Binary matrix of connectivity}
 
-\item{Q1}{number of row clusters}
+\item{Q1}{Number of row clusters}
 
-\item{Q2}{number of column clusters}
+\item{Q2}{Number of column clusters}
 
-\item{Z1}{initial clustering of rows}
+\item{Z1}{Initial clustering of rows}
 
-\item{Z2}{initial clustering of columns}
+\item{Z2}{Initial clustering of columns}
 
-\item{param}{list of parameters}
+\item{param}{List of parameters}
 }
 \value{
 Estimated LBM parameters and clustering

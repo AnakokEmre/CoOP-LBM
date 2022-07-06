@@ -16,7 +16,7 @@ clustinit_LBM(connectivity, Q1, Q2, type = "hierarchical_clust")
 \item{type}{type of initialization : "hierarchical_clust", "spectral_clust" or "kmeans_clust"}
 }
 \value{
-list containing an initial clustering for rows and columns
+List containing an initial clustering for rows and columns
 }
 \description{
 Clustering initialization
