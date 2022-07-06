@@ -20,7 +20,7 @@ fit_supervised_LBM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list(
     fixPointIter  = 3,
     threshold     = 1e-3,
     cores         = 1,
-    ICL_function  = LBM_ICL_2,
+    ICL_function  = LBM_ICL_3,
     initMethod = "hierarchical_clust"
   )
   param[names(estimOptions)] <- estimOptions
@@ -107,7 +107,7 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
     maxHeat       = 50,
     fixPointIter  = 3,
     cores         = 1,
-    ICL_function  = LBM_ICL_2,
+    ICL_function  = LBM_ICL_3,
     initMethod="hierarchical_clust"
   )
   param[names(estimOptions)] <- estimOptions
