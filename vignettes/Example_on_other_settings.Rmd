@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(CoOPLBM)
+library(pROC)
 ```
 
 To show the robustness of the developed algorithm for CoOP-LBM, a series of examples is available on this page, where the settings are different from the one defined in the article. The criterion used to compare the quality of the estimation is the AUC of the probability of finding the missing links in $M$

@@ -4,5 +4,6 @@ pkgdown_sha: ~
 articles:
   Available_options: Available_options.html
   example: example.html
-last_built: 2022-07-06T14:27Z
+  Example_on_other_settings: Example_on_other_settings.html
+last_built: 2022-07-07T08:55Z
 

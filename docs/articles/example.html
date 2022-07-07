@@ -43,6 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Available_options.html">Available options</a>
     <a class="dropdown-item" href="../articles/example.html">Example</a>
+    <a class="dropdown-item" href="../articles/Example_on_other_settings.html">Example on other settings</a>
   </div>
 </li>
       </ul>
@@ -98,11 +99,11 @@
 <span><span class="va">Z1</span> <span class="op">=</span><span class="va">simulation1</span><span class="op">$</span><span class="va">Z</span></span>
 <span><span class="va">Z2</span> <span class="op">=</span><span class="va">simulation1</span><span class="op">$</span><span class="va">W</span></span>
 <span><span class="va">G</span><span class="op">=</span> <span class="fl">300</span></span>
-<span><span class="va">C1</span> <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n1</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
-<span><span class="va">C2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n2</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
-<span><span class="va">C1</span> <span class="op">=</span> <span class="va">C1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">C1</span><span class="op">)</span></span>
-<span><span class="va">C2</span> <span class="op">=</span> <span class="va">C2</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">C2</span><span class="op">)</span></span>
-<span><span class="va">N0</span><span class="op">=</span><span class="va">C1</span><span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">C2</span><span class="op">)</span><span class="op">*</span><span class="va">G</span></span>
+<span><span class="va">lambda_i</span> <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n1</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="va">mu_j</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n2</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="va">lambda_i</span> <span class="op">=</span> <span class="va">lambda_i</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">lambda_i</span><span class="op">)</span></span>
+<span><span class="va">mu_j</span> <span class="op">=</span> <span class="va">mu_j</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">mu_j</span><span class="op">)</span></span>
+<span><span class="va">N0</span><span class="op">=</span><span class="va">lambda_i</span><span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">mu_j</span><span class="op">)</span><span class="op">*</span><span class="va">G</span></span>
 <span><span class="va">N</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n1</span><span class="op">*</span><span class="va">n2</span>,<span class="va">N0</span><span class="op">)</span>,nrow<span class="op">=</span><span class="va">n1</span><span class="op">)</span></span>
 <span><span class="va">R</span> <span class="op">=</span> <span class="va">M</span><span class="op">*</span><span class="va">N</span></span>
 <span></span>
@@ -114,10 +115,10 @@
 <span><span class="va">Z2_obs</span> <span class="op">=</span> <span class="va">Z2</span><span class="op">[</span><span class="va">obscol</span><span class="op">]</span></span>
 <span><span class="va">V</span> <span class="op">=</span> <span class="fl">1</span><span class="op">*</span><span class="op">(</span><span class="va">R_obs</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">C1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">lambda_i</span><span class="op">)</span></span></code></pre></div>
 <p><img src="example_files/figure-html/initialization1-1.png" width="700"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">C2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">mu_j</span><span class="op">)</span></span></code></pre></div>
 <p><img src="example_files/figure-html/initialization1-2.png" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://grosssbm.github.io/sbm/reference/plotMyMatrix.html" class="external-link">plotMyMatrix</a></span><span class="op">(</span><span class="va">M</span>,clustering <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>row<span class="op">=</span><span class="va">Z1</span>,col<span class="op">=</span><span class="va">Z2</span><span class="op">)</span>,plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>line.width<span class="op">=</span><span class="fl">1</span>,title <span class="op">=</span> <span class="st">"Complete matrix"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -130,9 +131,9 @@
 <p><img src="example_files/figure-html/initialization1-5.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">try1</span><span class="op">=</span><span class="fu"><a href="../reference/fit_unsupervised_LBM.html">fit_unsupervised_LBM</a></span><span class="op">(</span><span class="va">V</span>,exploOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot<span class="op">=</span><span class="cn">FALSE</span>,verbosity<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-5 groups."</span></span>
 <span><span class="va">try2</span><span class="op">=</span><span class="fu"><a href="../reference/fit_unsupervised_CoOP_LBM.html">fit_unsupervised_CoOP_LBM</a></span><span class="op">(</span><span class="va">R_obs</span>,exploOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot<span class="op">=</span><span class="cn">F</span>,verbosity<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-3 groups."</span></span>
 <span></span>
 <span><span class="va">model1</span> <span class="op">=</span> <span class="va">try1</span><span class="op">[[</span><span class="fu"><a href="../reference/best_ICL.html">best_ICL</a></span><span class="op">(</span><span class="va">try1</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">model2</span> <span class="op">=</span> <span class="va">try2</span><span class="op">[[</span><span class="fu"><a href="../reference/best_ICL.html">best_ICL</a></span><span class="op">(</span><span class="va">try2</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
@@ -207,8 +208,8 @@
 <span><span class="co">#________________RMSE________________</span></span>
 <span></span>
 <span></span>
-<span><span class="va">RMSE_lambda</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">C1</span><span class="op">[</span><span class="va">obsrow</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">RMSE_mu</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">C2</span><span class="op">[</span><span class="va">obscol</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">RMSE_lambda</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">lambda_i</span><span class="op">[</span><span class="va">obsrow</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">RMSE_mu</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">mu_j</span><span class="op">[</span><span class="va">obscol</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">RMSE_lambda_mu_G</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">N0</span><span class="op">[</span><span class="va">obsrow</span>,<span class="va">obscol</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">lambda_mu_G</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#________________AUC________________</span></span>
@@ -225,41 +226,41 @@
 <span><span class="co">#________________PRINT________________</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Q1 | LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">model1</span><span class="op">$</span><span class="va">pi</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">model2</span><span class="op">$</span><span class="va">pi</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Q1 | LBM = 5 | CoOP-LBM = 2"</span></span>
+<span><span class="co">#&gt; [1] "Q1 | LBM = 4 | CoOP-LBM = 2"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Q2 | LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">model1</span><span class="op">$</span><span class="va">pi</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">model2</span><span class="op">$</span><span class="va">pi</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Q2 | LBM = 5 | CoOP-LBM = 2"</span></span>
+<span><span class="co">#&gt; [1] "Q2 | LBM = 5 | CoOP-LBM = 3"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"row ARI | LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ARIL1</span>,<span class="fl">3</span><span class="op">)</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ARIL2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "row ARI | LBM = 0.409 | CoOP-LBM = 0.438"</span></span>
+<span><span class="co">#&gt; [1] "row ARI | LBM = 0.351 | CoOP-LBM = 0.358"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"col ARI | LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ARIC1</span>,<span class="fl">3</span><span class="op">)</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ARIC2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "col ARI | LBM = 0.333 | CoOP-LBM = 0.52"</span></span>
+<span><span class="co">#&gt; [1] "col ARI | LBM = 0.187 | CoOP-LBM = 0.64"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Connectivity | Complete matrix = "</span> ,<span class="va">Connectivity_M</span> ,<span class="st">" | Observed matrix = "</span>, <span class="va">Connectivity_V</span> , <span class="st">" | LBM = "</span>,<span class="va">Connectivity_LBM</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="va">Connectivity_CoOP</span>,<span class="st">" | Chao = "</span>,<span class="va">Chao</span> <span class="op">)</span> <span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Connectivity | Complete matrix = 0.567 | Observed matrix = 0.332 | LBM = 0.332 | CoOP-LBM = 0.563 | Chao = 0.335"</span></span>
+<span><span class="co">#&gt; [1] "Connectivity | Complete matrix = 0.588 | Observed matrix = 0.369 | LBM = 0.369 | CoOP-LBM = 0.613 | Chao = 0.371"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"RMSE of row coverage | Chao = "</span> ,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_chao_L</span>,<span class="fl">3</span><span class="op">)</span> ,<span class="st">" | CoOP-LBM = "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_CoOP_L</span>,<span class="fl">3</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "RMSE of row coverage | Chao = 0.345 | CoOP-LBM = 0.064"</span></span>
+<span><span class="co">#&gt; [1] "RMSE of row coverage | Chao = 0.429 | CoOP-LBM = 0.104"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"RMSE of column coverage | Chao = "</span> ,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_chao_C</span>,<span class="fl">3</span><span class="op">)</span> ,<span class="st">" | CoOP-LBM = "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_CoOP_C</span>,<span class="fl">3</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "RMSE of column coverage | Chao = 0.339 | CoOP-LBM = 0.06"</span></span>
+<span><span class="co">#&gt; [1] "RMSE of column coverage | Chao = 0.296 | CoOP-LBM = 0.039"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"NODF | Complete matrix = "</span> ,<span class="va">NODF_M</span>,<span class="st">" | Observed matrix = "</span>, <span class="va">NODF_V</span> , <span class="st">" | LBM = "</span>,<span class="va">NODF_LBM</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="va">NODF_CoOP</span>,<span class="st">" | Random = "</span>, <span class="va">NODF_Random</span>   <span class="op">)</span> <span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "NODF | Complete matrix = 0.715 | Observed matrix = 0.586 | LBM = 0.805 | CoOP-LBM = 0.687 | Random = 0.65"</span></span>
+<span><span class="co">#&gt; [1] "NODF | Complete matrix = 0.714 | Observed matrix = 0.647 | LBM = 0.834 | CoOP-LBM = 0.72 | Random = 0.684"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Modularity | Complete matrix = "</span> ,<span class="va">MOD_M</span> ,<span class="st">" | Observed matrix = "</span>, <span class="va">MOD_V</span> , <span class="st">" | LBM = "</span>,<span class="va">MOD_LBM</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="va">MOD_CoOP</span>,<span class="st">" | Random = "</span>,<span class="va">MOD_Random</span> <span class="op">)</span> <span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Modularity | Complete matrix = 0.202 | Observed matrix = 0.374 | LBM = 0.244 | CoOP-LBM = 0.185 | Random = 0.155"</span></span>
+<span><span class="co">#&gt; [1] "Modularity | Complete matrix = 0.188 | Observed matrix = 0.386 | LBM = 0.243 | CoOP-LBM = 0.2 | Random = 0.173"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Estimated G : "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">model2</span><span class="op">$</span><span class="va">G</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Estimated G : 292.032"</span></span>
+<span><span class="co">#&gt; [1] "Estimated G : 300.152"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"RMSE | Lambda = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_lambda</span>,<span class="fl">3</span><span class="op">)</span>,<span class="st">" | Mu = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_mu</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "RMSE | Lambda = 0.01 | Mu = 0.01"</span></span>
+<span><span class="co">#&gt; [1] "RMSE | Lambda = 0.01 | Mu = 0.007"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"RMSE | Lambda x Mu x G  = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_lambda_mu_G</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "RMSE | Lambda x Mu x G  = 1.293"</span></span>
+<span><span class="co">#&gt; [1] "RMSE | Lambda x Mu x G  = 1.285"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"AUC | LBM  = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">AUC_LBM</span>,<span class="fl">3</span><span class="op">)</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">AUC_CoOP</span>,<span class="fl">3</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "AUC | LBM  = 0.406 | CoOP-LBM = 0.85"</span></span>
+<span><span class="co">#&gt; [1] "AUC | LBM  = 0.354 | CoOP-LBM = 0.824"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>pty<span class="op">=</span><span class="st">"s"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">C1</span><span class="op">[</span><span class="va">obsrow</span><span class="op">]</span>,<span class="va">model2</span><span class="op">$</span><span class="va">lambda</span>,main <span class="op">=</span> <span class="st">"Lambda"</span>,xlab <span class="op">=</span> <span class="st">"Theorical"</span>,ylab<span class="op">=</span><span class="st">"Estimated"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lambda_i</span><span class="op">[</span><span class="va">obsrow</span><span class="op">]</span>,<span class="va">model2</span><span class="op">$</span><span class="va">lambda</span>,main <span class="op">=</span> <span class="st">"Lambda"</span>,xlab <span class="op">=</span> <span class="st">"Theorical"</span>,ylab<span class="op">=</span><span class="st">"Estimated"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="example_files/figure-html/print_score1-1.png" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">C2</span><span class="op">[</span><span class="va">obscol</span><span class="op">]</span>,<span class="va">model2</span><span class="op">$</span><span class="va">mu</span>,main <span class="op">=</span> <span class="st">"Mu"</span>,xlab <span class="op">=</span> <span class="st">"Theorical"</span>,ylab<span class="op">=</span><span class="st">"Estimated"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mu_j</span><span class="op">[</span><span class="va">obscol</span><span class="op">]</span>,<span class="va">model2</span><span class="op">$</span><span class="va">mu</span>,main <span class="op">=</span> <span class="st">"Mu"</span>,xlab <span class="op">=</span> <span class="st">"Theorical"</span>,ylab<span class="op">=</span><span class="st">"Estimated"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="example_files/figure-html/print_score1-2.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -349,11 +350,11 @@
 <span><span class="va">M</span> <span class="op">=</span> <span class="va">simulation1</span><span class="op">$</span><span class="va">A</span></span>
 <span><span class="va">Z1</span> <span class="op">=</span><span class="va">simulation1</span><span class="op">$</span><span class="va">Z</span></span>
 <span><span class="va">Z2</span> <span class="op">=</span><span class="va">simulation1</span><span class="op">$</span><span class="va">W</span></span>
-<span><span class="va">C1</span> <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n1</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
-<span><span class="va">C2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n2</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
-<span><span class="va">C1</span> <span class="op">=</span> <span class="va">C1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">C1</span><span class="op">)</span></span>
-<span><span class="va">C2</span> <span class="op">=</span> <span class="va">C2</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">C2</span><span class="op">)</span></span>
-<span><span class="va">N0</span><span class="op">=</span><span class="va">C1</span><span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">C2</span><span class="op">)</span><span class="op">*</span><span class="va">G</span></span>
+<span><span class="va">lambda_i</span> <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n1</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="va">mu_j</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n2</span>,<span class="fl">0.3</span>,<span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="va">lambda_i</span> <span class="op">=</span> <span class="va">lambda_i</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">lambda_i</span><span class="op">)</span></span>
+<span><span class="va">mu_j</span> <span class="op">=</span> <span class="va">mu_j</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">mu_j</span><span class="op">)</span></span>
+<span><span class="va">N0</span><span class="op">=</span><span class="va">lambda_i</span><span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">mu_j</span><span class="op">)</span><span class="op">*</span><span class="va">G</span></span>
 <span><span class="va">N</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n1</span><span class="op">*</span><span class="va">n2</span>,<span class="va">N0</span><span class="op">)</span>,nrow<span class="op">=</span><span class="va">n1</span><span class="op">)</span></span>
 <span><span class="va">R</span> <span class="op">=</span> <span class="va">M</span><span class="op">*</span><span class="va">N</span></span>
 <span></span>
@@ -454,8 +455,8 @@
 <span><span class="co">#________________RMSE________________</span></span>
 <span></span>
 <span></span>
-<span><span class="va">RMSE_lambda</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">C1</span><span class="op">[</span><span class="va">obsrow</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">RMSE_mu</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">C2</span><span class="op">[</span><span class="va">obscol</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">RMSE_lambda</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">lambda_i</span><span class="op">[</span><span class="va">obsrow</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">RMSE_mu</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">mu_j</span><span class="op">[</span><span class="va">obscol</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">RMSE_lambda_mu_G</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">N0</span><span class="op">[</span><span class="va">obsrow</span>,<span class="va">obscol</span><span class="op">]</span><span class="op">-</span><span class="va">model2</span><span class="op">$</span><span class="va">lambda_mu_G</span><span class="op">)</span><span class="op">**</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#________________AUC________________</span></span>
@@ -497,65 +498,65 @@
 <span>                            <span class="va">Connectivity_M</span>,<span class="va">Connectivity_V</span>,<span class="va">Connectivity_LBM</span>,<span class="va">Connectivity_CoOP</span>,<span class="va">Chao</span>,<span class="va">RMSE_chao_L</span>,<span class="va">RMSE_chao_C</span>,<span class="va">RMSE_CoOP_L</span>,<span class="va">RMSE_CoOP_C</span>,<span class="va">NODF_M</span>,<span class="va">NODF_V</span>,<span class="va">NODF_LBM</span>,<span class="va">NODF_CoOP</span>,<span class="va">NODF_Random</span>,<span class="va">MOD_M</span>,<span class="va">MOD_V</span>,<span class="va">MOD_LBM</span>,<span class="va">MOD_CoOP</span>,<span class="va">MOD_Random</span>,<span class="va">rob0</span>,<span class="va">rob1</span>,<span class="va">rob1.2</span>,<span class="va">rob2</span>,<span class="va">G</span>,<span class="va">model2</span><span class="op">$</span><span class="va">G</span>,<span class="va">RMSE_lambda</span>,<span class="va">RMSE_mu</span>,<span class="va">RMSE_lambda_mu_G</span>,<span class="va">AUC_LBM</span>,<span class="va">AUC_CoOP</span><span class="op">)</span>        </span>
 <span><span class="op">}</span><span class="op">}</span></span>
 <span><span class="co">#&gt; [1] 1</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-3 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-4 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 2</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 6-4 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 3</span></span>
 <span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-4 groups."</span></span>
 <span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-3 groups."</span></span>
 <span><span class="co">#&gt; [1] 4</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-4 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-6 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
+<span><span class="co">#&gt; [1] 6</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 6-4 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
+<span><span class="co">#&gt; [1] 7</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
+<span><span class="co">#&gt; [1] 8</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-3 groups."</span></span>
+<span><span class="co">#&gt; [1] 9</span></span>
 <span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-4 groups."</span></span>
 <span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-3 groups."</span></span>
-<span><span class="co">#&gt; [1] 6</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
-<span><span class="co">#&gt; [1] 7</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-4 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-2 groups."</span></span>
-<span><span class="co">#&gt; [1] 8</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 3-4 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-3 groups."</span></span>
-<span><span class="co">#&gt; [1] 9</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-3 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
 <span><span class="co">#&gt; [1] 10</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 6-4 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 1</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 6-6 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 4-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 2</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-4 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
 <span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-3 groups."</span></span>
 <span><span class="co">#&gt; [1] 3</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 6-5 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 4</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-4 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-4 groups."</span></span>
 <span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
 <span><span class="co">#&gt; [1] 5</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-7 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 6</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-5 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-3 groups."</span></span>
 <span><span class="co">#&gt; [1] 7</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 6-6 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 6-5 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 8</span></span>
 <span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-2 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
 <span><span class="co">#&gt; [1] 9</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-4 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 4-2 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-2 groups."</span></span>
 <span><span class="co">#&gt; [1] 10</span></span>
 <span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-5 groups."</span></span>
-<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-4 groups."</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 2-2 groups."</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monmodele</span> <span class="op">=</span> <span class="st">"CoOP-LBM"</span></span>
 <span></span>

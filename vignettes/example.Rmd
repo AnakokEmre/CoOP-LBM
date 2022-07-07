@@ -44,11 +44,11 @@ M = simulation1$A
 Z1 =simulation1$Z
 Z2 =simulation1$W
 G= 300
-C1 =rbeta(n1,0.3,1.5)
-C2 = rbeta(n2,0.3,1.5)
-C1 = C1/max(C1)
-C2 = C2/max(C2)
-N0=C1%*%t(C2)*G
+lambda_i =rbeta(n1,0.3,1.5)
+mu_j = rbeta(n2,0.3,1.5)
+lambda_i = lambda_i/max(lambda_i)
+mu_j = mu_j/max(mu_j)
+N0=lambda_i%*%t(mu_j)*G
 N=matrix(rpois(n1*n2,N0),nrow=n1)
 R = M*N
 
@@ -60,11 +60,12 @@ Z1_obs = Z1[obsrow]
 Z2_obs = Z2[obscol]
 V = 1*(R_obs>0)
 
-hist(C1)
-hist(C2)
+hist(lambda_i)
+hist(mu_j)
 plotMyMatrix(M,clustering = list(row=Z1,col=Z2),plotOptions = list(line.width=1,title = "Complete matrix"))
 plotMyMatrix(V,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(line.width=1,title = "Observed matrix (binary)"))
 plotMyMatrix(R_obs,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(line.width=1,title = "Observed matrix"))
+
 
 ```
 
@@ -150,8 +151,8 @@ MOD_Random = round(NOS(V4)$mod,3)
 #________________RMSE________________
 
 
-RMSE_lambda = sqrt(mean((C1[obsrow]-model2$lambda)**2))
-RMSE_mu = sqrt(mean((C2[obscol]-model2$mu)**2))
+RMSE_lambda = sqrt(mean((lambda_i[obsrow]-model2$lambda)**2))
+RMSE_mu = sqrt(mean((mu_j[obscol]-model2$mu)**2))
 RMSE_lambda_mu_G = sqrt(mean((N0[obsrow,obscol]-model2$lambda_mu_G)**2))
 
 #________________AUC________________
@@ -185,9 +186,9 @@ print(paste0("RMSE | Lambda x Mu x G  = ",round(RMSE_lambda_mu_G,3)))
 print(paste0("AUC | LBM  = ",round(AUC_LBM,3)," | CoOP-LBM = ",round(AUC_CoOP,3) ))
 
 par(pty="s")
-plot(C1[obsrow],model2$lambda,main = "Lambda",xlab = "Theorical",ylab="Estimated")
+plot(lambda_i[obsrow],model2$lambda,main = "Lambda",xlab = "Theorical",ylab="Estimated")
 abline(0,1,lty=2)
-plot(C2[obscol],model2$mu,main = "Mu",xlab = "Theorical",ylab="Estimated")
+plot(mu_j[obscol],model2$mu,main = "Mu",xlab = "Theorical",ylab="Estimated")
 abline(0,1,lty=2)
 plot(N0[obsrow,obscol],model2$lambda_mu_G,main = "Lambda Mu G",xlab = "Theorical",ylab="Estimated")
 abline(0,1,lty=2)
@@ -272,11 +273,11 @@ simulation1=simulate_lbm(P,alpha1,alpha2,n1,n2)
 M = simulation1$A
 Z1 =simulation1$Z
 Z2 =simulation1$W
-C1 =rbeta(n1,0.3,1.5)
-C2 = rbeta(n2,0.3,1.5)
-C1 = C1/max(C1)
-C2 = C2/max(C2)
-N0=C1%*%t(C2)*G
+lambda_i =rbeta(n1,0.3,1.5)
+mu_j = rbeta(n2,0.3,1.5)
+lambda_i = lambda_i/max(lambda_i)
+mu_j = mu_j/max(mu_j)
+N0=lambda_i%*%t(mu_j)*G
 N=matrix(rpois(n1*n2,N0),nrow=n1)
 R = M*N
 
@@ -377,8 +378,8 @@ rob2 = round(robustness_lbm(con =model2$pi,pi = model2$alpha1,rho =model2$alpha2
 #________________RMSE________________
 
 
-RMSE_lambda = sqrt(mean((C1[obsrow]-model2$lambda)**2))
-RMSE_mu = sqrt(mean((C2[obscol]-model2$mu)**2))
+RMSE_lambda = sqrt(mean((lambda_i[obsrow]-model2$lambda)**2))
+RMSE_mu = sqrt(mean((mu_j[obscol]-model2$mu)**2))
 RMSE_lambda_mu_G = sqrt(mean((N0[obsrow,obscol]-model2$lambda_mu_G)**2))
 
 #________________AUC________________
