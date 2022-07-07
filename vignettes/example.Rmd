@@ -426,17 +426,16 @@ result[nrow(result)+1,] = c(dim(model1$pi)[1],dim(model1$pi)[2],dim(model2$pi)[1
 
 
 ```{r}
-monmodele = "CoOP-LBM"
 
 df1 = result[c("G","ARI_row_LBM","ARI_row_CoOP")]
 df1_long <- melt(df1, id.vars=c("G"))
 p1 <- ggplot(df1_long, aes(x=factor(G),y=value,fill=variable))+
-  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="G")+scale_fill_discrete(labels = c("LBM",monmodele))+ guides(fill=guide_legend(title=""))
+  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="G")+scale_fill_discrete(labels = c("LBM","CoOP-LBM"))+ guides(fill=guide_legend(title=""))
 
 df2 = result[c("G","ARI_col_LBM","ARI_col_CoOP")]
 df2_long <- melt(df2, id.vars=c("G"))
 p2 <- ggplot(df2_long, aes(x=factor(G),y=value,fill=variable))+
-  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="G")+scale_fill_discrete(labels = c("LBM",monmodele)) + guides(fill=guide_legend(title=""))
+  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="G")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))
 
 
 grid.arrange(p1,p2,ncol=2)
@@ -480,7 +479,7 @@ df3_long <- melt(df3, id.vars=c("G"))
 p7 <- ggplot(df3_long, aes(x=factor(G),y=value,fill=variable))+
   geom_hline(data=d_connectivity,aes(yintercept = m,linetype=c("b","a","b")))+
   geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Connectivity")+labs(x="G")+guides(fill=guide_legend(title=""))+
-  scale_fill_discrete(labels = c("Observed matrix","Chao",monmodele))+
+  scale_fill_discrete(labels = c("Observed matrix","Chao","CoOP-LBM"))+
    labs(linetype="")+
  scale_linetype_discrete( labels=c("theorical mean","90% fluctuation interval"))
 p7
@@ -491,14 +490,14 @@ df4 = result[c("G","RMSE_chao_row_coverage","RMSE_CoOP_row_coverage")]
 
 df4_long <- melt(df4, id.vars=c("G"))
 p8 <- ggplot(df4_long, aes(x=factor(G),y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of row coverage") + scale_fill_discrete(labels = c("Chao",monmodele))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of row coverage") + scale_fill_discrete(labels = c("Chao","CoOP-LBM"))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
 
 
 df5 = result[c("G","RMSE_chao_col_coverage","RMSE_CoOP_col_coverage")]
 
 df5_long <- melt(df5, id.vars=c("G"))
 p9 <- ggplot(df5_long, aes(x=factor(G),y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of column coverage") + scale_fill_discrete(labels = c("Chao",monmodele))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of column coverage") + scale_fill_discrete(labels = c("Chao","CoOP-LBM"))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
 
 
 grid.arrange(p8,p9, nrow = 2)
@@ -520,7 +519,7 @@ p10 <- ggplot(df6_long, aes(x=factor(G),y=value,fill=variable))+
   geom_hline(data=d6,aes(yintercept = m,linetype=c("b","a","b")))+
   geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   ggtitle("Nestedness")+
-  scale_fill_discrete(labels = c("Observed matrix","Oracle LBM",monmodele,"Randomly completed"))+
+  scale_fill_discrete(labels = c("Observed matrix","Oracle LBM","CoOP-LBM","Randomly completed"))+
  guides(fill=guide_legend(title="")) + labs(color="",shape="",y="Nestedness",x="G")+
    labs(linetype="")+
  scale_linetype_discrete( labels=c("empirical mean","90% fluctuation interval"))
@@ -546,7 +545,7 @@ p11 <- ggplot(df7_long, aes(x=factor(G),y=value,fill=variable))+
   geom_boxplot()  + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   ggtitle("Modularity")+
-  scale_fill_discrete(labels = c("Observed matrix","Oracle LBM",monmodele,"Randomly completed"))+
+  scale_fill_discrete(labels = c("Observed matrix","Oracle LBM","CoOP-LBM","Randomly completed"))+
  guides(fill=guide_legend(title="")) + labs(color="",shape="",y="Modularity",x="G")+
    labs(linetype="")+
  scale_linetype_discrete( labels=c("empirical mean","90% fluctuation interval"))
@@ -565,7 +564,7 @@ p12 <-  ggplot(df8_long, aes(x=factor(G),y=value,fill=variable))+
   geom_hline(aes(yintercept=rob_mean,linetype="Theorical mean"))+
   geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   ggtitle("Robustness")+
-  scale_fill_discrete(labels = c("LBM","Oracle LBM",monmodele))+
+  scale_fill_discrete(labels = c("LBM","Oracle LBM","CoOP-LBM"))+
    labs(color="",shape="",y="Robustness",x="G")+
   guides(fill=guide_legend(title=""),linetype=guide_legend(title="") )
 p12
@@ -577,7 +576,7 @@ df9 = result[c("G","AUC_LBM","AUC_CoOP")]
 
 df9_long <- melt(df9, id.vars=c("G"))
 p13 <- ggplot(df9_long, aes(x=factor(G),y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM",monmodele)) + guides(fill=guide_legend(title=""))+labs(y="AUC",x="G")
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC",x="G")
 p13
 ```
 
