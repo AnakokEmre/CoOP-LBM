@@ -186,11 +186,11 @@ print(paste0("RMSE | Lambda x Mu x G  = ",round(RMSE_lambda_mu_G,3)))
 print(paste0("AUC | LBM  = ",round(AUC_LBM,3)," | CoOP-LBM = ",round(AUC_CoOP,3) ))
 
 par(pty="s")
-plot(lambda_i[obsrow],model2$lambda,main = "Lambda",xlab = "Theorical",ylab="Estimated")
+plot(lambda_i[obsrow],model2$lambda,main = "Lambda",xlab = "Theoretical",ylab="Estimated")
 abline(0,1,lty=2)
-plot(mu_j[obscol],model2$mu,main = "Mu",xlab = "Theorical",ylab="Estimated")
+plot(mu_j[obscol],model2$mu,main = "Mu",xlab = "Theoretical",ylab="Estimated")
 abline(0,1,lty=2)
-plot(N0[obsrow,obscol],model2$lambda_mu_G,main = "Lambda Mu G",xlab = "Theorical",ylab="Estimated")
+plot(N0[obsrow,obscol],model2$lambda_mu_G,main = "Lambda Mu G",xlab = "Theoretical",ylab="Estimated")
 abline(0,1,lty=2)
 
 plotMyMatrix(V,clustering = list(row=model1$cluster1,col=model1$cluster2),plotOptions = list(title="LBM clustering",line.width=1))
@@ -260,7 +260,7 @@ result = data.frame(Q1_LBM=numeric(),
 ```
 
 
-```{r fit2, cache=T}
+```{r fit2, cache=T, results="hide"}
 list_G = c(300,400) ### CHANGE THE LIST TO CHANGE THE EXPLORATION OF G
 K = 10 # NUMBER OF ITERATION FOR EACH G
 
@@ -481,7 +481,7 @@ p7 <- ggplot(df3_long, aes(x=factor(G),y=value,fill=variable))+
   geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Connectivity")+labs(x="G")+guides(fill=guide_legend(title=""))+
   scale_fill_discrete(labels = c("Observed matrix","Chao","CoOP-LBM"))+
    labs(linetype="")+
- scale_linetype_discrete( labels=c("theorical mean","90% fluctuation interval"))
+ scale_linetype_discrete( labels=c("Theoretical mean","90% fluctuation interval"))
 p7
 ```
 
@@ -561,7 +561,7 @@ df8_long <- melt(df8, id.vars=c("G"))
 rob_mean = mean(result$rob_M)
 
 p12 <-  ggplot(df8_long, aes(x=factor(G),y=value,fill=variable))+
-  geom_hline(aes(yintercept=rob_mean,linetype="Theorical mean"))+
+  geom_hline(aes(yintercept=rob_mean,linetype="Theoretical mean"))+
   geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   ggtitle("Robustness")+
   scale_fill_discrete(labels = c("LBM","Oracle LBM","CoOP-LBM"))+

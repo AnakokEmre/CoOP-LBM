@@ -262,7 +262,7 @@ forward_explo<-function(models,k1,k2,connectivity,f,param){
       }
       return(model)
     },mc.cores = param$cores)
-    best_one[[1]] <- candidates[[which.min(sapply(candidates, function(candidate) candidate$ICL))]]
+    best_one[[1]] <- candidates[[which.max(sapply(candidates, function(candidate) candidate$ICL))]]
 
     candidates <- mclapply(1:n2, function(j) {
       cl2 <- cl02
@@ -279,7 +279,7 @@ forward_explo<-function(models,k1,k2,connectivity,f,param){
       }
       return(model)
     },mc.cores = param$cores)
-    best_one[[2]] <- candidates[[which.min(sapply(candidates, function(candidate) candidate$ICL))]]
+    best_one[[2]] <- candidates[[which.max(sapply(candidates, function(candidate) candidate$ICL))]]
   }
   else{
     best_one[[1]]=models[[paste(as.character(k1+1),as.character(k2),sep="-")]]
@@ -318,7 +318,7 @@ backward_explo<-function(models,k1,k2,connectivity,f,param){
       model=f(connectivity,n1-1,k2,cl_fusion1,cl02,param)
       return(model)
     },mc.cores = param$cores)
-    best_one[[1]] <- candidates[[which.min(sapply(candidates, function(candidate) candidate$ICL))]]
+    best_one[[1]] <- candidates[[which.max(sapply(candidates, function(candidate) candidate$ICL))]]
 
     candidates<-mclapply(combn(n2, 2, simplify = FALSE),function(couple){
       cl_fusion2 <- cl2
@@ -328,7 +328,7 @@ backward_explo<-function(models,k1,k2,connectivity,f,param){
       model=f(connectivity,k1,n2-1,cl01,cl_fusion2,param)
       return(model)
     },mc.cores = param$cores)
-    best_one[[2]] <- candidates[[which.min(sapply(candidates, function(candidate) candidate$ICL))]]
+    best_one[[2]] <- candidates[[which.max(sapply(candidates, function(candidate) candidate$ICL))]]
   }
   else{
     best_one[[1]]=models[[paste(as.character(k1-1),as.character(k2),sep="-")]]
