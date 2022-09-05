@@ -603,28 +603,19 @@ NODF = function(Matrix){
   M2 = M2[order(rowSums(Mbis),decreasing=T),]
 
   CS=colSums(M2)
-  Ncol=0
-  for (i in 1:(n2-1)){
-    for (j in (i+1):n2){
-      if (CS[i]>CS[j]){
-        Ncol = Ncol + M2[,i]%*%(M2[,j]/sum(M2[,j]))
-      }
-    }
-  }
+  M3 = t(M2)%*%sweep(M2,2,CS,"/")
+  CS2 = outer(CS,CS,FUN=">")
+
+  Ncol= sum(M3[CS2&upper.tri(M3)])
 
   RS=rowSums(M2)
-  Nrow=0
-  for (i in 1:(n1-1)){
-    for (j in (i+1):n1){
-      if (RS[i]>RS[j]){
-        Nrow = Nrow + M2[i,]%*%(M2[j,]/sum(M2[j,]))
-      }
-    }
-  }
+  M4 = M2%*%t(M2/RS)
+
+  RS2 = outer(RS,RS,FUN=">")
+  Nrow= sum(M4[RS2&upper.tri(M4)])/(n1*(n1-1)/2)
 
   list(row =Nrow/(n1*(n1-1)/2), col =Ncol/(n2*(n2-1)/2), matrix = (Ncol +Nrow)/((n1*(n1-1)/2)+(n2*(n2-1)/2))  )
 }
-
 
 
 
