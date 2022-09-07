@@ -107,7 +107,8 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
     fixPointIter  = 3,
     cores         = 1,
     ICL_function  = LBM_ICL_3,
-    initMethod="hierarchical_clust"
+    initMethod="hierarchical_clust",
+    eps = 0.01
   )
   param[names(estimOptions)] <- estimOptions
 
@@ -139,7 +140,7 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
   pi=LBM_update_pi3(connectivity ,Z1,Z2,Q1,Q2)
 
 
-  while (cond) {
+    while (cond) {
 
     i <- i + 1
     ## ______________________________________________________
@@ -162,14 +163,12 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
     ##simulation step
 
     new_Z = LBM_update_Z(R,alpha1,alpha2,pi,lambda_mu,Z1,Z2,lfactorialR)
-
     Z1 = new_Z[[1]]
     Z2 = new_Z[[2]]
 
     ## ______________________________________________________
     ## condition
 
-    cond     <- (i < (param$maxHeat+param$maxIter))
 
 
     if (i == param$maxHeat){
@@ -184,6 +183,13 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
     }
     if (i> param$maxHeat){
       j= j+1
+
+      convergence= 1/(j+1)*sqrt( sum((alpha1-res_alpha1)**2)+
+                       sum((alpha2-res_alpha2)**2)+
+                       sum((pi-res_pi)**2)+
+                       sum((lambda_mu$lambda_i-res_lambda)**2)+
+                       sum((lambda_mu$mu_j-res_mu)**2))
+
       res_alpha1 = (1-1/(j+1))*res_alpha1 + alpha1/(j+1)
       res_alpha2 = (1-1/(j+1))*res_alpha2 + alpha2/(j+1)
       res_mem1 = (1-1/(j+1))*res_mem1 + clustering_indicator(Z1,Q1)/(j+1)
@@ -191,7 +197,10 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
       res_pi = (1-1/(j+1))*res_pi + pi/(j+1)
       res_lambda = (1-1/(j+1))*res_lambda + lambda_mu$lambda_i/(j+1)
       res_mu = (1-1/(j+1))*res_mu+ lambda_mu$mu_j/(j+1)
-    }
+
+      cond     <- convergence > param$eps
+
+      }
 
 
 
