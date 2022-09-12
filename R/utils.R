@@ -589,7 +589,7 @@ LBM_ICL_2.2<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
 
 
 #' Nestedness metric based on Overlap and Decreasing Fill
-#'
+#' Faster method to calculate NODF
 #' @param Matrix
 #'
 #' @return List of NODF of the matrix,averaged by row, by column, and for the full matrix
