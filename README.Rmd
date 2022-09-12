@@ -15,10 +15,6 @@ knitr::opts_chunk$set(
 
 # CoOPLBM
 
-<!-- badges: start -->
-[![Travis build status](https://travis-ci.com/AnakokEmre/CoOP-LBM.svg?branch=master)](https://travis-ci.com/AnakokEmre/CoOP-LBM)
-<!-- badges: end -->
-
 The goal of CoOPLBM is to correct a latent block model (LBM) where data could have been missing by taking into account the counting data. This package allows to fit a CoOP-LBM on a bipartite graph, represented as a contigency table with the number of interaction observed. 
 
 ## Installation
