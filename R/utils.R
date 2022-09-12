@@ -612,7 +612,7 @@ NODF = function(Matrix){
   M4 = M2%*%t(M2/RS)
 
   RS2 = outer(RS,RS,FUN=">")
-  Nrow= sum(M4[RS2&upper.tri(M4)])/(n1*(n1-1)/2)
+  Nrow= sum(M4[RS2&upper.tri(M4)])
 
   list(row =Nrow/(n1*(n1-1)/2), col =Ncol/(n2*(n2-1)/2), matrix = (Ncol +Nrow)/((n1*(n1-1)/2)+(n2*(n2-1)/2))  )
 }
