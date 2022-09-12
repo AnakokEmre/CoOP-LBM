@@ -4,6 +4,9 @@
 # CoOPLBM
 
 <!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.com/AnakokEmre/CoOP-LBM.svg?branch=master)](https://travis-ci.com/AnakokEmre/CoOP-LBM)
 <!-- badges: end -->
 
 The goal of CoOPLBM is to correct a latent block model (LBM) where data
