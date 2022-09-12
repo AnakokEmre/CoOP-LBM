@@ -536,7 +536,7 @@ LBM_ICL_3<-function(members1,members2,alpha1,alpha2,pi, R,lambdamu){
   N2=dim(V)[2]
   pi_ij = pi[membertoclust(members1),membertoclust(members2)]
   L1 = sum((log(pi_ij)-lambdamu)[V>0])
-  L2 = sum(R*log(lambdamu) - lfactorial(R))
+  L2 = sum(R[R>0]*log(lambdamu[R>0]) - lfactorial(R[R>0]))
   L3 = sum(log(1-pi_ij[V==0]*(1-exp(-lambdamu[V==0]))))
 
   logL=sum(members1%*%log(alpha1))+sum(members2%*%log(alpha2))+L1 +L2 + L3
