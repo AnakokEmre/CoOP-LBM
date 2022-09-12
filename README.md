@@ -6,7 +6,7 @@
 The goal of CoOPLBM is to correct a Latent Block Model (LBM) where data
 could have been missing by taking into account the counting data. This
 package allows to fit a CoOP-LBM on a bipartite graph, represented as a
-contigency table with the number of interaction observed. TEST
+contigency table with the number of interaction observed.
 
 ## Installation
 
