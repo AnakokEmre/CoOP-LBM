@@ -102,13 +102,13 @@ fit_supervised_LBM<-function(connectivity,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list(
 fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
 
   param <- list(
-    maxIter       = 50,
+    maxIter       = 10000,
     maxHeat       = 50,
     fixPointIter  = 3,
     cores         = 1,
     ICL_function  = LBM_ICL_3,
     initMethod="hierarchical_clust",
-    eps = 0.01
+    threshold  = 0.01
   )
   param[names(estimOptions)] <- estimOptions
 
@@ -198,7 +198,7 @@ fit_supervised_CoOP_LBM<-function(R,Q1,Q2,Z1=c(),Z2=c(),estimOptions=list()) {
       res_lambda = (1-1/(j+1))*res_lambda + lambda_mu$lambda_i/(j+1)
       res_mu = (1-1/(j+1))*res_mu+ lambda_mu$mu_j/(j+1)
 
-      cond     <- convergence > param$eps
+      cond     <- (convergence > param$threshold )&(j<param$maxIter)
 
       }
 

@@ -116,7 +116,7 @@ fit_unsupervised_CoOP_LBM(M,estimOptions = list(maxHeat  = 100))
 
 #### Maximum Iteration after burn in
 
-To change the maximum number of iteration of the SEM algorithm after the burn in period, which default value is 50, use :
+To change the maximum number of iteration of the SEM algorithm after the burn in period, which default value is 10000, use :
 
 ```{r, eval = FALSE}
 fit_unsupervised_CoOP_LBM(M,estimOptions = list(maxIter  = 100))
