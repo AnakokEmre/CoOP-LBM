@@ -1,6 +1,6 @@
 Package: CoOPLBM
 Title: Corrected Observation Process for Latent Block Model
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: 
     person("Emre", "ANAKOK", , "emre.anakok@agroparistech.fr", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
