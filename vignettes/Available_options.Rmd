@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 library(CoOPLBM)
 ```
 
-## Options for the exploration procedure
+# Options for the exploration procedure
 
 All the following options concerns the exploration procedure of both **fit_unsupervised_LBM** and **fit_unsupervised_CoOP_LBM** functions, which is the part where the number of groups is changing in order to explore the best fit. The arguments must be in a list containing all the option.
 
-#### Plots
+### Plots
 
 To deactivate the plots use :
 
@@ -30,7 +30,7 @@ To deactivate the plots use :
 fit_unsupervised_CoOP_LBM(M,exploOptions = list(plot=F))
 ```
 
-#### Verbosity
+### Verbosity
 
 To deactivate all the prints, use:
 
@@ -38,7 +38,7 @@ To deactivate all the prints, use:
 fit_unsupervised_CoOP_LBM(M,exploOptions = list(verbosity=F))
 ```
 
-#### Initialization type
+### Initialization type
 
 There are several ways to initialize clustering during the exploration. The default initialization is hierarchical clustering. Spectral and K-means clustering are also available. If you want to change the initialization, use :
 
@@ -48,7 +48,7 @@ fit_unsupervised_CoOP_LBM(M,exploOptions = list(initMethod="kmeans_clust"))
 
 ```
 
-#### Maximum Exploration
+### Maximum Exploration
 
 The algorithm keeps increasing the number of groups if the ICL increases. If the ICL decrease, the algorithm will keeps increasing the number of groups until it reaches a number of groups greater than 1.5 times the best matches. To change this value, use :
 
@@ -56,7 +56,7 @@ The algorithm keeps increasing the number of groups if the ICL increases. If the
 fit_unsupervised_CoOP_LBM(M,exploOptions = list(maxEplo=2))
 ```
 
-#### Maximum Number of Groups
+### Maximum Number of Groups
 
 The algorithm keeps increasing the number of groups if the ICL increases, but will stop if the number of groups is greater than 10. To change that threshold, use :
 
@@ -66,7 +66,7 @@ fit_unsupervised_CoOP_LBM(M,exploOptions = list(maxGroups=15))
 
 The threshold can't be lower than 4.
 
-#### Reinitialize the exploration
+### Reinitialize the exploration
 
 For a deeper exploration of the parameters, the exploration can be done backward and forward once the maximum of groups is found. This exploration leads to more precise result but is time consuming. Use :
 
@@ -74,13 +74,13 @@ For a deeper exploration of the parameters, the exploration can be done backward
 fit_unsupervised_CoOP_LBM(M,exploOptions = list(reinitialize  = TRUE))
 ```
 
-## Options for the estimation procedure
+# Options for the estimation procedure
 
 All the following options concerns the estimation procedure, which is done for a number of fixed groups. These options are different for LBM and CoOP-LBM, but are available for both the unsupervised function and their supervised counterparts.
 
-### LBM
+## LBM
 
-#### Maximum Iteration
+### Maximum Iteration
 
 To change the maximum number of iteration of the VEM algorithm, which default value is 50, use :
 
@@ -88,7 +88,7 @@ To change the maximum number of iteration of the VEM algorithm, which default va
 fit_unsupervised_LBM(M,estimOptions = list(maxIter  = 100))
 ```
 
-#### Variational fixed point algorithm 
+### Variational fixed point algorithm 
 
 The variational parameters are calculated with a fixed point algorithm, which default number of iteration is 3. To change the this value, use :
 
@@ -96,7 +96,7 @@ The variational parameters are calculated with a fixed point algorithm, which de
 fit_unsupervised_LBM(M,estimOptions = list(fixPointIter  = 3))
 ```
 
-#### Threshold of convergence
+### Threshold of convergence
 
 The estimation of the parameters stops if the relative distance between an estimation and the next is below a threshold equals to 1e-3. To change the threshold, use :
 
@@ -104,9 +104,9 @@ The estimation of the parameters stops if the relative distance between an estim
 fit_unsupervised_LBM(M,estimOptions = list(threshold     = 1e-4))
 ```
 
-### CoOP-LBM
+## CoOP-LBM
 
-#### Maximum Iteration during burn in
+### Maximum Iteration during burn in
 
 To change the maximum number of iteration of the SEM algorithm during the burn in period, which default value is 50, use :
 
@@ -114,7 +114,7 @@ To change the maximum number of iteration of the SEM algorithm during the burn i
 fit_unsupervised_CoOP_LBM(M,estimOptions = list(maxHeat  = 100))
 ```
 
-#### Maximum Iteration after burn in
+### Maximum Iteration after burn in
 
 To change the maximum number of iteration of the SEM algorithm after the burn in period, which default value is 10000, use :
 
@@ -122,7 +122,7 @@ To change the maximum number of iteration of the SEM algorithm after the burn in
 fit_unsupervised_CoOP_LBM(M,estimOptions = list(maxIter  = 100))
 ```
 
-#### Fixed point algorithm 
+### Fixed point algorithm 
 
 The sampling effort parameters are calculated with fixed point algorithm, which default number of iteration is 3. To change the this value, use :
 

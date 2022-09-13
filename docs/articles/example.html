@@ -43,7 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Available_options.html">Available options</a>
     <a class="dropdown-item" href="../articles/example.html">Example</a>
-    <a class="dropdown-item" href="../articles/Example_on_other_settings.html">Example on other settings</a>
+    <a class="dropdown-item" href="../articles/Example_on_other_settings.html">Robustness to model misspecification</a>
   </div>
 </li>
       </ul>
@@ -82,6 +82,9 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">gridExtra</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">CoOPLBM</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="simulation-for-1-iteration">Simulation for 1 iteration<a class="anchor" aria-label="anchor" href="#simulation-for-1-iteration"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n1</span> <span class="op">=</span> <span class="fl">100</span></span>
 <span><span class="va">n2</span> <span class="op">=</span> <span class="fl">100</span></span>
@@ -131,7 +134,7 @@
 <p><img src="example_files/figure-html/initialization1-5.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">try1</span><span class="op">=</span><span class="fu"><a href="../reference/fit_unsupervised_LBM.html">fit_unsupervised_LBM</a></span><span class="op">(</span><span class="va">V</span>,exploOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot<span class="op">=</span><span class="cn">FALSE</span>,verbosity<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 5-4 groups."</span></span>
+<span><span class="co">#&gt; [1] "LBM : Best model has been fitted with 4-5 groups."</span></span>
 <span><span class="va">try2</span><span class="op">=</span><span class="fu"><a href="../reference/fit_unsupervised_CoOP_LBM.html">fit_unsupervised_CoOP_LBM</a></span><span class="op">(</span><span class="va">R_obs</span>,exploOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot<span class="op">=</span><span class="cn">F</span>,verbosity<span class="op">=</span><span class="cn">F</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "CoOP-LBM : Best model has been fitted with 3-3 groups."</span></span>
 <span></span>
@@ -226,34 +229,34 @@
 <span><span class="co">#________________PRINT________________</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Q1 | LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">model1</span><span class="op">$</span><span class="va">pi</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">model2</span><span class="op">$</span><span class="va">pi</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Q1 | LBM = 5 | CoOP-LBM = 3"</span></span>
+<span><span class="co">#&gt; [1] "Q1 | LBM = 4 | CoOP-LBM = 3"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Q2 | LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">model1</span><span class="op">$</span><span class="va">pi</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">model2</span><span class="op">$</span><span class="va">pi</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Q2 | LBM = 4 | CoOP-LBM = 3"</span></span>
+<span><span class="co">#&gt; [1] "Q2 | LBM = 5 | CoOP-LBM = 3"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"row ARI | LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ARIL1</span>,<span class="fl">3</span><span class="op">)</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ARIL2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "row ARI | LBM = 0.292 | CoOP-LBM = 0.603"</span></span>
+<span><span class="co">#&gt; [1] "row ARI | LBM = 0.32 | CoOP-LBM = 0.792"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"col ARI | LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ARIC1</span>,<span class="fl">3</span><span class="op">)</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ARIC2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "col ARI | LBM = 0.225 | CoOP-LBM = 0.623"</span></span>
+<span><span class="co">#&gt; [1] "col ARI | LBM = 0.378 | CoOP-LBM = 0.767"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Connectivity | Complete matrix = "</span> ,<span class="va">Connectivity_M</span> ,<span class="st">" | Observed matrix = "</span>, <span class="va">Connectivity_V</span> , <span class="st">" | LBM = "</span>,<span class="va">Connectivity_LBM</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="va">Connectivity_CoOP</span>,<span class="st">" | Chao = "</span>,<span class="va">Chao</span> <span class="op">)</span> <span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Connectivity | Complete matrix = 0.583 | Observed matrix = 0.335 | LBM = 0.335 | CoOP-LBM = 0.605 | Chao = 0.338"</span></span>
+<span><span class="co">#&gt; [1] "Connectivity | Complete matrix = 0.554 | Observed matrix = 0.359 | LBM = 0.359 | CoOP-LBM = 0.56 | Chao = 0.361"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"RMSE of row coverage | Chao = "</span> ,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_chao_L</span>,<span class="fl">3</span><span class="op">)</span> ,<span class="st">" | CoOP-LBM = "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_CoOP_L</span>,<span class="fl">3</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "RMSE of row coverage | Chao = 0.386 | CoOP-LBM = 0.056"</span></span>
+<span><span class="co">#&gt; [1] "RMSE of row coverage | Chao = 0.369 | CoOP-LBM = 0.134"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"RMSE of column coverage | Chao = "</span> ,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_chao_C</span>,<span class="fl">3</span><span class="op">)</span> ,<span class="st">" | CoOP-LBM = "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_CoOP_C</span>,<span class="fl">3</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "RMSE of column coverage | Chao = 0.427 | CoOP-LBM = 0.087"</span></span>
+<span><span class="co">#&gt; [1] "RMSE of column coverage | Chao = 0.337 | CoOP-LBM = 0.062"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"NODF | Complete matrix = "</span> ,<span class="va">NODF_M</span>,<span class="st">" | Observed matrix = "</span>, <span class="va">NODF_V</span> , <span class="st">" | LBM = "</span>,<span class="va">NODF_LBM</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="va">NODF_CoOP</span>,<span class="st">" | Random = "</span>, <span class="va">NODF_Random</span>   <span class="op">)</span> <span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "NODF | Complete matrix = 0.361 | Observed matrix = 0.303 | LBM = 0.419 | CoOP-LBM = 0.368 | Random = 0.338"</span></span>
+<span><span class="co">#&gt; [1] "NODF | Complete matrix = 0.698 | Observed matrix = 0.616 | LBM = 0.792 | CoOP-LBM = 0.696 | Random = 0.64"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Modularity | Complete matrix = "</span> ,<span class="va">MOD_M</span> ,<span class="st">" | Observed matrix = "</span>, <span class="va">MOD_V</span> , <span class="st">" | LBM = "</span>,<span class="va">MOD_LBM</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="va">MOD_CoOP</span>,<span class="st">" | Random = "</span>,<span class="va">MOD_Random</span> <span class="op">)</span> <span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Modularity | Complete matrix = 0.197 | Observed matrix = 0.412 | LBM = 0.268 | CoOP-LBM = 0.212 | Random = 0.168"</span></span>
+<span><span class="co">#&gt; [1] "Modularity | Complete matrix = 0.201 | Observed matrix = 0.366 | LBM = 0.247 | CoOP-LBM = 0.22 | Random = 0.166"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Estimated G : "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">model2</span><span class="op">$</span><span class="va">G</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Estimated G : 289.018"</span></span>
+<span><span class="co">#&gt; [1] "Estimated G : 296.438"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"RMSE | Lambda = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_lambda</span>,<span class="fl">3</span><span class="op">)</span>,<span class="st">" | Mu = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_mu</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "RMSE | Lambda = 0.011 | Mu = 0.01"</span></span>
+<span><span class="co">#&gt; [1] "RMSE | Lambda = 0.006 | Mu = 0.013"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"RMSE | Lambda x Mu x G  = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">RMSE_lambda_mu_G</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "RMSE | Lambda x Mu x G  = 1.294"</span></span>
+<span><span class="co">#&gt; [1] "RMSE | Lambda x Mu x G  = 1.278"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"AUC | LBM  = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">AUC_LBM</span>,<span class="fl">3</span><span class="op">)</span>,<span class="st">" | CoOP-LBM = "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">AUC_CoOP</span>,<span class="fl">3</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "AUC | LBM  = 0.363 | CoOP-LBM = 0.833"</span></span>
+<span><span class="co">#&gt; [1] "AUC | LBM  = 0.392 | CoOP-LBM = 0.853"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>pty<span class="op">=</span><span class="st">"s"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lambda_i</span><span class="op">[</span><span class="va">obsrow</span><span class="op">]</span>,<span class="va">model2</span><span class="op">$</span><span class="va">lambda</span>,main <span class="op">=</span> <span class="st">"Lambda"</span>,xlab <span class="op">=</span> <span class="st">"Theoretical"</span>,ylab<span class="op">=</span><span class="st">"Estimated"</span><span class="op">)</span></span>
@@ -281,6 +284,7 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://grosssbm.github.io/sbm/reference/plotMyMatrix.html" class="external-link">plotMyMatrix</a></span><span class="op">(</span><span class="va">proba_connect2</span>,clustering <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>row<span class="op">=</span><span class="va">Z1_obs</span>,col<span class="op">=</span><span class="va">Z2_obs</span><span class="op">)</span>,plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"CoOP-LBM probabilities of missing interaction"</span>,line.width<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="example_files/figure-html/print_score1-7.png" width="700"></p>
+</div>
 <div class="section level2">
 <h2 id="simulation-for-k-iteration">Simulation for K iteration<a class="anchor" aria-label="anchor" href="#simulation-for-k-iteration"></a>
 </h2>
@@ -653,7 +657,8 @@
 <span><span class="va">p11</span></span></code></pre></div>
 <p><img src="example_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
-  </main>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

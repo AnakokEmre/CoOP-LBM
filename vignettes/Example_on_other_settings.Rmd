@@ -1,8 +1,8 @@
 ---
-title: "Example on other settings"
+title: "Robustness to model misspecification"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example on other settings}
+  %\VignetteIndexEntry{Robustness to model misspecification}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+#robustness to model misspecification
 ```
 
 ```{r setup}
@@ -423,7 +424,7 @@ p3
 
 
 
-# $\lambda$ and $\mu$ are structured in cluster indentical to $Z^1$ and $Z^2$
+# $\lambda$ and $\mu$ are structured in cluster identical to $Z^1$ and $Z^2$
 
 In this situation, $\lambda$ and $\mu$ are also structured, this simulation is done to see if the structure of the sampling can perturb the estimation of network's structure.
 

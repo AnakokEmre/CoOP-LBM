@@ -26,6 +26,7 @@ library(ggplot2)
 library(gridExtra)
 library(CoOPLBM)
 ```
+# Simulation for 1 iteration
 
 ```{r initialization1}
 n1 = 100
@@ -200,7 +201,7 @@ plotMyMatrix(proba_connect1,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions
 plotMyMatrix(proba_connect2,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(title="CoOP-LBM probabilities of missing interaction",line.width=1))
 ```
 
-## Simulation for K iteration
+# Simulation for K iteration
 
 ```{r initialization2}
 n1 = 100
