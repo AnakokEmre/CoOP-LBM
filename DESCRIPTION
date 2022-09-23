@@ -5,8 +5,7 @@ Authors@R:
     person("Emre", "ANAKOK", , "emre.anakok@agroparistech.fr", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: By taking into account the counting data, it is possible to correct a latent block model (LBM) where data could have been missing. This package allows to fit a CoOP-LBM on a bipartite graph, represented as a contigency table with the number of interaction observed. 
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
