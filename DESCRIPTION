@@ -1,9 +1,11 @@
 Package: CoOPLBM
 Title: Corrected Observation Process for Latent Block Model
 Version: 1.0.0
-Authors@R: 
+Authors@R: c(
     person("Emre", "ANAKOK", , "emre.anakok@agroparistech.fr", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "YOUR-ORCID-ID")),
+    person("Thomas","Cortier", , role="ctb")       
+           )
 Description: By taking into account the counting data, it is possible to correct a latent block model (LBM) where data could have been missing. This package allows to fit a CoOP-LBM on a bipartite graph, represented as a contigency table with the number of interaction observed. 
 License: MIT + file LICENSE
 Encoding: UTF-8
