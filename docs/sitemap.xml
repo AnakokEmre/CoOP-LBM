@@ -4,13 +4,19 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>/LICENSE.html</loc>
+  </url>
+  <url>
     <loc>/articles/Available_options.html</loc>
   </url>
   <url>
-    <loc>/articles/example.html</loc>
+    <loc>/articles/Example_on_other_settings.html</loc>
   </url>
   <url>
-    <loc>/articles/Example_on_other_settings.html</loc>
+    <loc>/articles/example.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
@@ -22,19 +28,16 @@
     <loc>/index.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>/reference/CoOPLBM-package.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>/reference/NODF.html</loc>
   </url>
   <url>
     <loc>/reference/best_ICL.html</loc>
   </url>
   <url>
     <loc>/reference/clustinit_LBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CoOPLBM-package.html</loc>
   </url>
   <url>
     <loc>/reference/fit_supervised_CoOP_LBM.html</loc>
@@ -50,8 +53,5 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/NODF.html</loc>
   </url>
 </urlset>

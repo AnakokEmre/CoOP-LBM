@@ -74,7 +74,7 @@ plotMyMatrix(R_obs,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(l
 
 ```{r, fit1}
 try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
-try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F))
+try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F),estimOptions = list(maxIter  = 100))
 
 model1 = try1[[best_ICL(try1)]]
 model2 = try2[[best_ICL(try2)]]
@@ -125,8 +125,13 @@ fC2 = colSums(R_obs==2)
 ChaoL = 1 - fL1/rowSums(R_obs) * (rowSums(R_obs)-1)*fL1/((rowSums(R_obs)-1)*fL1+2*(fL2+1))
 ChaoC = 1 - fC1/colSums(R_obs) * (colSums(R_obs)-1)*fC1/((colSums(R_obs)-1)*fC1+2*(fC2+1))
 
+ChaoL2 = rowSums(R_obs>0)/(estimateR(R_obs)["S.chao1",])
+ChaoC2 = colSums(R_obs>0)/(estimateR(t(R_obs))["S.chao1",])
 RMSE_chao_L = sqrt(mean((ChaoL-rowSums(R_obs>0)/rowSums(M[rowSums(R)>0,]))**2))
 RMSE_chao_C = sqrt(mean((ChaoC-colSums(R_obs>0)/colSums(M[,colSums(R)>0]))**2))
+
+RMSE_chao_L2 = sqrt(mean((ChaoL2-rowSums(R_obs>0)/rowSums(M[rowSums(R)>0,]))**2))
+RMSE_chao_C2 = sqrt(mean((ChaoC2-colSums(R_obs>0)/colSums(M[,colSums(R)>0]))**2))
 
 RMSE_CoOP_L = sqrt(mean((model2$row_coverage-rowSums(R_obs>0)/rowSums(M[rowSums(R)>0,]))**2))
 RMSE_CoOP_C = sqrt(mean((model2$col_coverage-colSums(R_obs>0)/colSums(M[,colSums(R)>0]))**2))
@@ -175,8 +180,8 @@ print(paste0("row ARI | LBM = ",round(ARIL1,3)," | CoOP-LBM = ",round(ARIL2,3)))
 print(paste0("col ARI | LBM = ",round(ARIC1,3)," | CoOP-LBM = ",round(ARIC2,3)))
 
 print(paste0("Connectivity | Complete matrix = " ,Connectivity_M ," | Observed matrix = ", Connectivity_V , " | LBM = ",Connectivity_LBM," | CoOP-LBM = ",Connectivity_CoOP," | Chao = ",Chao ) )
-print(paste0("RMSE of row coverage | Chao = " ,round(RMSE_chao_L,3) ," | CoOP-LBM = ", round(RMSE_CoOP_L,3) ))
-print(paste0("RMSE of column coverage | Chao = " ,round(RMSE_chao_C,3) ," | CoOP-LBM = ", round(RMSE_CoOP_C,3) ))
+print(paste0("RMSE of row coverage | Chao cov = " ,round(RMSE_chao_L,3),"| Chao abund = ",round(RMSE_chao_L2,3) ," | CoOP-LBM = ", round(RMSE_CoOP_L,3) ))
+print(paste0("RMSE of column coverage | Chao = " ,round(RMSE_chao_C,3) ,"| Chao abund = ",round(RMSE_chao_C2,3)," | CoOP-LBM = ", round(RMSE_CoOP_C,3) ))
 
 print(paste0("NODF | Complete matrix = " ,NODF_M," | Observed matrix = ", NODF_V , " | LBM = ",NODF_LBM," | CoOP-LBM = ",NODF_CoOP," | Random = ", NODF_Random   ) )
 print(paste0("Modularity | Complete matrix = " ,MOD_M ," | Observed matrix = ", MOD_V , " | LBM = ",MOD_LBM," | CoOP-LBM = ",MOD_CoOP," | Random = ",MOD_Random ) )
@@ -231,8 +236,11 @@ result = data.frame(Q1_LBM=numeric(),
                    Connectivity_LBM = numeric(),
                    Connectivity_CoOP = numeric(),
                    Connectivity_Chao = numeric(),
+                   Connectivity_Chao1 = numeric(),
                    RMSE_chao_row_coverage= numeric(),
                    RMSE_chao_col_coverage= numeric(),
+                   RMSE_chao1_row_coverage= numeric(),
+                   RMSE_chao1_col_coverage= numeric(),
                    RMSE_CoOP_row_coverage= numeric(),
                    RMSE_CoOP_col_coverage= numeric(),
                    NODF_M = numeric(),
@@ -262,7 +270,7 @@ result = data.frame(Q1_LBM=numeric(),
 
 
 ```{r fit2, cache=T, results="hide"}
-list_G = c(300,400) ### CHANGE THE LIST TO CHANGE THE EXPLORATION OF G
+list_G = c(25,100,200,300,400,500,600) ### CHANGE THE LIST TO CHANGE THE EXPLORATION OF G
 K = 10 # NUMBER OF ITERATION FOR EACH G
 
 print_result = FALSE # CHANGE TO TRUE IF YOU WANT TO PRINT RESULT AT EACH ITERATION
@@ -327,6 +335,7 @@ Connectivity_V = round(mean(V),3)
 Connectivity_LBM = round(model1$alpha1%*%model1$pi%*%model1$alpha2,3)
 Connectivity_CoOP = round(model2$alpha1%*%model2$pi%*%model2$alpha2,3)
 Chao =round(mean(V)/(1 - F1/sum(R_obs) * (sum(R_obs)-1)*F1/((sum(R_obs)-1)*F1+2*(F2+1))),3)
+Chao1 = round(estimateR(c(R_obs))["S.chao1"]/(n1*n2),3)
 
 #________________COVERAGE________________
 
@@ -345,6 +354,13 @@ RMSE_chao_C = sqrt(mean((ChaoC-colSums(R_obs>0)/colSums(M[,colSums(R)>0]))**2))
 
 RMSE_CoOP_L = sqrt(mean((model2$row_coverage-rowSums(R_obs>0)/rowSums(M[rowSums(R)>0,]))**2))
 RMSE_CoOP_C = sqrt(mean((model2$col_coverage-colSums(R_obs>0)/colSums(M[,colSums(R)>0]))**2))
+
+
+ChaoL2 = rowSums(R_obs>0)/(estimateR(R_obs)["S.chao1",])
+ChaoC2 = colSums(R_obs>0)/(estimateR(t(R_obs))["S.chao1",])
+
+RMSE_chao1_L = sqrt(mean((ChaoL2-rowSums(R_obs>0)/rowSums(M[rowSums(R)>0,]))**2))
+RMSE_chao1_C = sqrt(mean((ChaoC2-colSums(R_obs>0)/colSums(M[,colSums(R)>0]))**2))
 
 #________________NESTEDNESS________________
 
@@ -401,9 +417,9 @@ print(paste0("Q2 | LBM = ",dim(model1$pi)[2]," | CoOP-LBM = ",dim(model2$pi)[2])
 print(paste0("row ARI | LBM = ",round(ARIL1,3)," | CoOP-LBM = ",round(ARIL2,3)))
 print(paste0("col ARI | LBM = ",round(ARIC1,3)," | CoOP-LBM = ",round(ARIC2,3)))
 
-print(paste0("Connectivity | Complete matrix = " ,Connectivity_M ," | Observed matrix = ", Connectivity_V , " | LBM = ",Connectivity_LBM," | CoOP-LBM = ",Connectivity_CoOP," | Chao = ",Chao ) )
-print(paste0("RMSE of row coverage | Chao = " ,round(RMSE_chao_L,3) ," | CoOP-LBM = ", round(RMSE_CoOP_L,3) ))
-print(paste0("RMSE of column coverage | Chao = " ,round(RMSE_chao_C,3) ," | CoOP-LBM = ", round(RMSE_CoOP_C,3) ))
+print(paste0("Connectivity | Complete matrix = " ,Connectivity_M ," | Observed matrix = ", Connectivity_V , " | LBM = ",Connectivity_LBM," | CoOP-LBM = ",Connectivity_CoOP," | Chao = ",Chao ," | Chao1 = ", Chao1 ) )
+print(paste0("RMSE of row coverage | Chao = " ,round(RMSE_chao_L,3)," | Chao1 = ",round(RMSE_chao1_L,3) ," | CoOP-LBM = ", round(RMSE_CoOP_L,3) ))
+print(paste0("RMSE of column coverage | Chao = " ,round(RMSE_chao_C,3)," | Chao1 = ",round(RMSE_chao1_C,3) ," | CoOP-LBM = ", round(RMSE_CoOP_C,3) ))
 
 print(paste0("NODF | Complete matrix = " ,NODF_M," | Observed matrix = ", NODF_V , " | LBM = ",NODF_LBM," | CoOP-LBM = ",NODF_CoOP," | Random = ", NODF_Random   ) )
 print(paste0("Modularity | Complete matrix = " ,MOD_M ," | Observed matrix = ", MOD_V , " | LBM = ",MOD_LBM," | CoOP-LBM = ",MOD_CoOP," | Random = ",MOD_Random ) )
@@ -417,9 +433,47 @@ print(paste0("AUC | LBM  = ",round(AUC_LBM,3)," | CoOP-LBM = ",round(AUC_CoOP,3)
 
 print("##########")
 }
-result[nrow(result)+1,] = c(dim(model1$pi)[1],dim(model1$pi)[2],dim(model2$pi)[1],dim(model2$pi)[2],
-                            ARIL1,ARIC1,ARIL2,ARIC2,
-                            Connectivity_M,Connectivity_V,Connectivity_LBM,Connectivity_CoOP,Chao,RMSE_chao_L,RMSE_chao_C,RMSE_CoOP_L,RMSE_CoOP_C,NODF_M,NODF_V,NODF_LBM,NODF_CoOP,NODF_Random,MOD_M,MOD_V,MOD_LBM,MOD_CoOP,MOD_Random,rob0,rob1,rob1.2,rob2,G,model2$G,RMSE_lambda,RMSE_mu,RMSE_lambda_mu_G,AUC_LBM,AUC_CoOP)        
+result[nrow(result)+1,] = c(dim(model1$pi)[1],
+                            dim(model1$pi)[2],
+                            dim(model2$pi)[1],
+                            dim(model2$pi)[2],
+                            ARIL1,
+                            ARIC1,
+                            ARIL2,
+                            ARIC2,
+                            Connectivity_M,
+                            Connectivity_V,
+                            Connectivity_LBM,
+                            Connectivity_CoOP,
+                            Chao,
+                            Chao1,
+                            RMSE_chao_L,
+                            RMSE_chao_C,
+                            RMSE_chao1_L,
+                            RMSE_chao1_C,
+                            RMSE_CoOP_L,
+                            RMSE_CoOP_C,
+                            NODF_M,
+                            NODF_V,
+                            NODF_LBM,
+                            NODF_CoOP,
+                            NODF_Random,
+                            MOD_M,
+                            MOD_V,
+                            MOD_LBM,
+                            MOD_CoOP,
+                            MOD_Random,
+                            rob0,
+                            rob1,
+                            rob1.2,
+                            rob2,
+                            G,
+                            model2$G,
+                            RMSE_lambda,
+                            RMSE_mu,
+                            RMSE_lambda_mu_G,
+                            AUC_LBM,
+                            AUC_CoOP)        
 }}
 
 ```
@@ -468,6 +522,7 @@ grid.arrange(p3,p4,p5,p6,ncol=2, nrow = 2)
 
 
 ```{r}
+library(scales)
 connectivity_q05 = quantile(result$Connectivity_M,0.05)
 mean_connectivity = alpha1%*%P%*%alpha2 
 connectivity_q95 = quantile(result$Connectivity_M,0.95)
@@ -475,30 +530,32 @@ connectivity_q95 = quantile(result$Connectivity_M,0.95)
 d_connectivity = data.frame(m=c(connectivity_q05,mean_connectivity,connectivity_q95))
 
 
-df3 = result[c("G","Connectivity_V","Connectivity_Chao","Connectivity_CoOP")]
+df3 = result[c("G","Connectivity_V","Connectivity_CoOP","Connectivity_Chao","Connectivity_Chao1")]
 df3_long <- melt(df3, id.vars=c("G"))
+#df3_long$variable = factor(df3_long$variable ,levels = levels(unique(df3_long$variable))[c(1,3,2,4)])
 p7 <- ggplot(df3_long, aes(x=factor(G),y=value,fill=variable))+
   geom_hline(data=d_connectivity,aes(yintercept = m,linetype=c("b","a","b")))+
   geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Connectivity")+labs(x="G")+guides(fill=guide_legend(title=""))+
-  scale_fill_discrete(labels = c("Observed matrix","Chao","CoOP-LBM"))+
-   labs(linetype="")+
+  #scale_fill_discrete(labels = c("Observed matrix","Chao coverage","CoOP-LBM","Chao 1"))+
+  scale_fill_manual(labels = c("Observed matrix","CoOP-LBM","Chao coverage","Chao 1"),values= hue_pal()(4)[c(1,3,2,4)]) +
+  labs(linetype="")+
  scale_linetype_discrete( labels=c("Theoretical mean","90% fluctuation interval"))
 p7
 ```
 
 ```{r}
-df4 = result[c("G","RMSE_chao_row_coverage","RMSE_CoOP_row_coverage")]
+df4 = result[c("G","RMSE_chao_row_coverage","RMSE_chao1_row_coverage","RMSE_CoOP_row_coverage")]
 
 df4_long <- melt(df4, id.vars=c("G"))
 p8 <- ggplot(df4_long, aes(x=factor(G),y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of row coverage") + scale_fill_discrete(labels = c("Chao","CoOP-LBM"))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of row coverage") + scale_fill_discrete(labels = c("Chao coverage","Chao 1","CoOP-LBM"))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
 
 
-df5 = result[c("G","RMSE_chao_col_coverage","RMSE_CoOP_col_coverage")]
+df5 = result[c("G","RMSE_chao_col_coverage","RMSE_chao1_col_coverage","RMSE_CoOP_col_coverage")]
 
 df5_long <- melt(df5, id.vars=c("G"))
 p9 <- ggplot(df5_long, aes(x=factor(G),y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of column coverage") + scale_fill_discrete(labels = c("Chao","CoOP-LBM"))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("RMSE of column coverage") + scale_fill_discrete(labels = c("Chao coverage","Chao 1","CoOP-LBM"))+labs(y="RMSE",x="G")+ guides(fill=guide_legend(title=""))
 
 
 grid.arrange(p8,p9, nrow = 2)
