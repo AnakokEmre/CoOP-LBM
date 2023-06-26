@@ -335,7 +335,7 @@ Connectivity_V = round(mean(V),3)
 Connectivity_LBM = round(model1$alpha1%*%model1$pi%*%model1$alpha2,3)
 Connectivity_CoOP = round(model2$alpha1%*%model2$pi%*%model2$alpha2,3)
 Chao =round(mean(V)/(1 - F1/sum(R_obs) * (sum(R_obs)-1)*F1/((sum(R_obs)-1)*F1+2*(F2+1))),3)
-Chao1 = round(estimateR(c(R_obs))["S.chao1"]/(n1*n2),3)
+Chao1 = round(estimateR(c(R_obs))["S.chao1"]/(prod(dim(R_obs))),3)
 
 #________________COVERAGE________________
 
