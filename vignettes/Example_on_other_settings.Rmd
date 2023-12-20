@@ -22,7 +22,7 @@ library(ggplot2)
 library(reshape2)
 library(aricode)
 library(gridExtra)
-
+library(sbm)
 ```
 
 To show the robustness of the developed algorithm for CoOP-LBM, a series of examples is available on this page, where the settings are different from the one defined in the article. The criterion used to compare the quality of the estimation is the AUC of the probability of finding the missing links in $M$, and the ARI score of the estimated clustering with the true clustering.
@@ -52,8 +52,11 @@ result1 = data.frame(ARI_row_LBM=numeric(),
                     ARI_col_LBM=numeric(),
                     ARI_row_CoOP = numeric(),
                     ARI_col_CoOP = numeric(),
+                    ARI_row_DCSBM = numeric(),
+                    ARI_col_DCSBM = numeric(),
                     AUC_LBM = numeric(),
-                    AUC_CoOP = numeric()
+                    AUC_CoOP = numeric(),
+                    AUC_DCSBM = numeric()
                    )
 ```
 
@@ -79,14 +82,30 @@ M_obs = M[obsrow,obscol]
 Z1_obs = Z1[obsrow]
 Z2_obs = Z2[obscol]
 V = 1*(R_obs>0)
+
+cov_row = lapply(2:nrow(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[k,] = 1
+  X
+})
+cov_col = lapply(2:ncol(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[,k] = 1
+  X
+})
+
+
 try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
 try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F))
+try3 = estimateBipartiteSBM(R_obs,model = "poisson",covariates = c(cov_row,cov_col),estimOptions = list(plot=F,verbosity=0,exploreMax = 10))
 
 model1 = try1[[best_ICL(try1)]]
 model2 = try2[[best_ICL(try2)]]
+model3 = try3
 
 proba_connect1 = model1$pi[model1$cluster1,model1$cluster2]
 proba_connect2 = model2$connectivity_prob
+proba_connect3 = 1-exp(-fitted(model3))
 
 
 
@@ -96,12 +115,16 @@ ARIC1=ARI(model1$cluster2,Z2_obs)
 ARIL2=ARI(model2$cluster1,Z1_obs)
 ARIC2=ARI(model2$cluster2,Z2_obs)
 
+ARIL3=ARI(model3$memberships$row,Z1_obs)
+ARIC3=ARI(model3$memberships$col,Z2_obs)
+
 AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
                    direction="<",levels=levels(as.factor(c(0,1)))))
 AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
                    direction="<",levels=levels(as.factor(c(0,1)))))
-
-result1[nrow(result1)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,AUC_LBM,AUC_CoOP)
+AUC_DCSBM = auc(roc(M_obs[V==0],proba_connect3[V==0],
+                    direction="<",levels=levels(as.factor(c(0,1)))))
+result1[nrow(result1)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,ARIL3,ARIC3,AUC_LBM,AUC_CoOP,AUC_DCSBM)
 
 }
 ```
@@ -109,17 +132,17 @@ result1[nrow(result1)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,AUC_LBM,AUC_CoOP)
 
 ```{r, warning = FALSE}
 
-df1 = result1[c("ARI_row_LBM","ARI_row_CoOP")]
+df1 = result1[c("ARI_row_LBM","ARI_row_CoOP","ARI_row_DCSBM")]
 df1 = melt(df1)
 p1 <- ggplot(df1, aes(y=value,fill=variable))+
-  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
-df2 = result1[c("ARI_col_LBM","ARI_col_CoOP")]
+df2 = result1[c("ARI_col_LBM","ARI_col_CoOP","ARI_col_DCSBM")]
 df2 = melt(df2)
 p2 <- ggplot(df2, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
@@ -129,11 +152,11 @@ grid.arrange(p1,p2,ncol=2)
 ```
 
 ```{r,warning=FALSE}
-df3 = result1[c("AUC_LBM","AUC_CoOP")]
+df3 = result1[c("AUC_LBM","AUC_CoOP","AUC_DCSBM")]
 
 df3_long <- melt(df3)
 p3 <- ggplot(df3_long, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 p3
@@ -148,8 +171,11 @@ result2 = data.frame(ARI_row_LBM=numeric(),
                     ARI_col_LBM=numeric(),
                     ARI_row_CoOP = numeric(),
                     ARI_col_CoOP = numeric(),
+                    ARI_row_DCSBM = numeric(),
+                    ARI_col_DCSBM = numeric(),
                     AUC_LBM = numeric(),
-                    AUC_CoOP = numeric()
+                    AUC_CoOP = numeric(),
+                    AUC_DCSBM = numeric()
                    )
 ```
 
@@ -174,19 +200,32 @@ M_obs = M[obsrow,obscol]
 Z1_obs = Z1[obsrow]
 Z2_obs = Z2[obscol]
 V = 1*(R_obs>0)
+
+cov_row = lapply(2:nrow(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[k,] = 1
+  X
+})
+cov_col = lapply(2:ncol(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[,k] = 1
+  X
+})
+
+
 try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
 try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F))
+try3 = estimateBipartiteSBM(R_obs,model = "poisson",covariates = c(cov_row,cov_col),estimOptions = list(plot=F,verbosity=0,exploreMax = 10))
 
 model1 = try1[[best_ICL(try1)]]
 model2 = try2[[best_ICL(try2)]]
+model3 = try3
 
 proba_connect1 = model1$pi[model1$cluster1,model1$cluster2]
 proba_connect2 = model2$connectivity_prob
+proba_connect3 = 1-exp(-fitted(model3))
 
-AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
-                   direction="<",levels=levels(as.factor(c(0,1)))))
-AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
-                   direction="<",levels=levels(as.factor(c(0,1)))))
+
 
 ARIL1=ARI(model1$cluster1,Z1_obs)
 ARIC1=ARI(model1$cluster2,Z2_obs)
@@ -194,24 +233,34 @@ ARIC1=ARI(model1$cluster2,Z2_obs)
 ARIL2=ARI(model2$cluster1,Z1_obs)
 ARIC2=ARI(model2$cluster2,Z2_obs)
 
-result2[nrow(result2)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,AUC_LBM,AUC_CoOP)
+ARIL3=ARI(model3$memberships$row,Z1_obs)
+ARIC3=ARI(model3$memberships$col,Z2_obs)
+
+AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_DCSBM = auc(roc(M_obs[V==0],proba_connect3[V==0],
+                    direction="<",levels=levels(as.factor(c(0,1)))))
+result2[nrow(result2)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,ARIL3,ARIC3,AUC_LBM,AUC_CoOP,AUC_DCSBM)
 
 }
 ```
 
+
 ```{r, warning = FALSE}
 
-df1 = result2[c("ARI_row_LBM","ARI_row_CoOP")]
+df1 = result2[c("ARI_row_LBM","ARI_row_CoOP","ARI_row_DCSBM")]
 df1 = melt(df1)
 p1 <- ggplot(df1, aes(y=value,fill=variable))+
-  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
-df2 = result2[c("ARI_col_LBM","ARI_col_CoOP")]
+df2 = result2[c("ARI_col_LBM","ARI_col_CoOP","ARI_col_DCSBM")]
 df2 = melt(df2)
 p2 <- ggplot(df2, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
@@ -221,11 +270,11 @@ grid.arrange(p1,p2,ncol=2)
 ```
 
 ```{r,warning=FALSE}
-df3 = result2[c("AUC_LBM","AUC_CoOP")]
+df3 = result2[c("AUC_LBM","AUC_CoOP","AUC_DCSBM")]
 
 df3_long <- melt(df3)
 p3 <- ggplot(df3_long, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 p3
@@ -240,8 +289,11 @@ result3 = data.frame(ARI_row_LBM=numeric(),
                     ARI_col_LBM=numeric(),
                     ARI_row_CoOP = numeric(),
                     ARI_col_CoOP = numeric(),
+                    ARI_row_DCSBM = numeric(),
+                    ARI_col_DCSBM = numeric(),
                     AUC_LBM = numeric(),
-                    AUC_CoOP = numeric()
+                    AUC_CoOP = numeric(),
+                    AUC_DCSBM = numeric()
                    )
 ```
 
@@ -267,44 +319,68 @@ M_obs = M[obsrow,obscol]
 Z1_obs = Z1[obsrow]
 Z2_obs = Z2[obscol]
 V = 1*(R_obs>0)
+
+cov_row = lapply(2:nrow(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[k,] = 1
+  X
+})
+cov_col = lapply(2:ncol(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[,k] = 1
+  X
+})
+
+
 try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
 try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F))
+try3 = estimateBipartiteSBM(R_obs,model = "poisson",covariates = c(cov_row,cov_col),estimOptions = list(plot=F,verbosity=0,exploreMax = 10))
 
 model1 = try1[[best_ICL(try1)]]
 model2 = try2[[best_ICL(try2)]]
+model3 = try3
 
 proba_connect1 = model1$pi[model1$cluster1,model1$cluster2]
 proba_connect2 = model2$connectivity_prob
+proba_connect3 = 1-exp(-fitted(model3))
 
-AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
-                   direction="<",levels=levels(as.factor(c(0,1)))))
-AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
-                   direction="<",levels=levels(as.factor(c(0,1)))))
+
 
 ARIL1=ARI(model1$cluster1,Z1_obs)
 ARIC1=ARI(model1$cluster2,Z2_obs)
 
 ARIL2=ARI(model2$cluster1,Z1_obs)
 ARIC2=ARI(model2$cluster2,Z2_obs)
-result3[nrow(result3)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,AUC_LBM,AUC_CoOP)
+
+ARIL3=ARI(model3$memberships$row,Z1_obs)
+ARIC3=ARI(model3$memberships$col,Z2_obs)
+
+AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_DCSBM = auc(roc(M_obs[V==0],proba_connect3[V==0],
+                    direction="<",levels=levels(as.factor(c(0,1)))))
+result3[nrow(result3)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,ARIL3,ARIC3,AUC_LBM,AUC_CoOP,AUC_DCSBM)
 
 }
 
 ```
 
+
 ```{r, warning = FALSE}
 
-df1 = result3[c("ARI_row_LBM","ARI_row_CoOP")]
+df1 = result3[c("ARI_row_LBM","ARI_row_CoOP","ARI_row_DCSBM")]
 df1 = melt(df1)
 p1 <- ggplot(df1, aes(y=value,fill=variable))+
-  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
-df2 = result3[c("ARI_col_LBM","ARI_col_CoOP")]
+df2 = result3[c("ARI_col_LBM","ARI_col_CoOP","ARI_col_DCSBM")]
 df2 = melt(df2)
 p2 <- ggplot(df2, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
@@ -314,11 +390,11 @@ grid.arrange(p1,p2,ncol=2)
 ```
 
 ```{r,warning=FALSE}
-df3 = result3[c("AUC_LBM","AUC_CoOP")]
+df3 = result3[c("AUC_LBM","AUC_CoOP","AUC_DCSBM")]
 
 df3_long <- melt(df3)
 p3 <- ggplot(df3_long, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 p3
@@ -332,8 +408,11 @@ result4 = data.frame(ARI_row_LBM=numeric(),
                     ARI_col_LBM=numeric(),
                     ARI_row_CoOP = numeric(),
                     ARI_col_CoOP = numeric(),
+                    ARI_row_DCSBM = numeric(),
+                    ARI_col_DCSBM = numeric(),
                     AUC_LBM = numeric(),
-                    AUC_CoOP = numeric()
+                    AUC_CoOP = numeric(),
+                    AUC_DCSBM = numeric()
                    )
 ```
 
@@ -364,43 +443,67 @@ M_obs = M[obsrow,obscol]
 Z1_obs = Z1[obsrow]
 Z2_obs = Z2[obscol]
 V = 1*(R_obs>0)
+
+cov_row = lapply(2:nrow(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[k,] = 1
+  X
+})
+cov_col = lapply(2:ncol(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[,k] = 1
+  X
+})
+
+
 try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
 try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F))
+try3 = estimateBipartiteSBM(R_obs,model = "poisson",covariates = c(cov_row,cov_col),estimOptions = list(plot=F,verbosity=0,exploreMax = 10))
 
 model1 = try1[[best_ICL(try1)]]
 model2 = try2[[best_ICL(try2)]]
+model3 = try3
 
 proba_connect1 = model1$pi[model1$cluster1,model1$cluster2]
 proba_connect2 = model2$connectivity_prob
+proba_connect3 = 1-exp(-fitted(model3))
 
-AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
-                   direction="<",levels=levels(as.factor(c(0,1)))))
-AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
-                   direction="<",levels=levels(as.factor(c(0,1)))))
+
 
 ARIL1=ARI(model1$cluster1,Z1_obs)
 ARIC1=ARI(model1$cluster2,Z2_obs)
 
 ARIL2=ARI(model2$cluster1,Z1_obs)
 ARIC2=ARI(model2$cluster2,Z2_obs)
-result4[nrow(result4)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,AUC_LBM,AUC_CoOP)
+
+ARIL3=ARI(model3$memberships$row,Z1_obs)
+ARIC3=ARI(model3$memberships$col,Z2_obs)
+
+AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_DCSBM = auc(roc(M_obs[V==0],proba_connect3[V==0],
+                    direction="<",levels=levels(as.factor(c(0,1)))))
+result4[nrow(result4)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,ARIL3,ARIC3,AUC_LBM,AUC_CoOP,AUC_DCSBM)
 
 }
 ```
 
+
 ```{r, warning = FALSE}
 
-df1 = result4[c("ARI_row_LBM","ARI_row_CoOP")]
+df1 = result4[c("ARI_row_LBM","ARI_row_CoOP","ARI_row_DCSBM")]
 df1 = melt(df1)
 p1 <- ggplot(df1, aes(y=value,fill=variable))+
-  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
-df2 = result4[c("ARI_col_LBM","ARI_col_CoOP")]
+df2 = result4[c("ARI_col_LBM","ARI_col_CoOP","ARI_col_DCSBM")]
 df2 = melt(df2)
 p2 <- ggplot(df2, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
@@ -410,11 +513,11 @@ grid.arrange(p1,p2,ncol=2)
 ```
 
 ```{r,warning=FALSE}
-df3 = result4[c("AUC_LBM","AUC_CoOP")]
+df3 = result4[c("AUC_LBM","AUC_CoOP","AUC_DCSBM")]
 
 df3_long <- melt(df3)
 p3 <- ggplot(df3_long, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 p3
@@ -433,8 +536,11 @@ result5 = data.frame(ARI_row_LBM=numeric(),
                     ARI_col_LBM=numeric(),
                     ARI_row_CoOP = numeric(),
                     ARI_col_CoOP = numeric(),
+                    ARI_row_DCSBM = numeric(),
+                    ARI_col_DCSBM = numeric(),
                     AUC_LBM = numeric(),
-                    AUC_CoOP = numeric()
+                    AUC_CoOP = numeric(),
+                    AUC_DCSBM = numeric()
                    )
 G=20
 ```
@@ -462,19 +568,32 @@ M_obs = M[obsrow,obscol]
 Z1_obs = Z1[obsrow]
 Z2_obs = Z2[obscol]
 V = 1*(R_obs>0)
+
+cov_row = lapply(2:nrow(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[k,] = 1
+  X
+})
+cov_col = lapply(2:ncol(V),function(k){
+  X = matrix(0,nrow(V),ncol(V))
+  X[,k] = 1
+  X
+})
+
+
 try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
 try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F))
+try3 = estimateBipartiteSBM(R_obs,model = "poisson",covariates = c(cov_row,cov_col),estimOptions = list(plot=F,verbosity=0,exploreMax = 10))
 
 model1 = try1[[best_ICL(try1)]]
 model2 = try2[[best_ICL(try2)]]
+model3 = try3
 
 proba_connect1 = model1$pi[model1$cluster1,model1$cluster2]
 proba_connect2 = model2$connectivity_prob
+proba_connect3 = 1-exp(-fitted(model3))
 
-AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
-                   direction="<",levels=levels(as.factor(c(0,1)))))
-AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
-                   direction="<",levels=levels(as.factor(c(0,1)))))
+
 
 ARIL1=ARI(model1$cluster1,Z1_obs)
 ARIC1=ARI(model1$cluster2,Z2_obs)
@@ -482,24 +601,34 @@ ARIC1=ARI(model1$cluster2,Z2_obs)
 ARIL2=ARI(model2$cluster1,Z1_obs)
 ARIC2=ARI(model2$cluster2,Z2_obs)
 
-result5[nrow(result5)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,AUC_LBM,AUC_CoOP)
+ARIL3=ARI(model3$memberships$row,Z1_obs)
+ARIC3=ARI(model3$memberships$col,Z2_obs)
+
+AUC_LBM  = auc(roc(M_obs[V==0],proba_connect1[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_CoOP = auc(roc(M_obs[V==0],proba_connect2[V==0],
+                   direction="<",levels=levels(as.factor(c(0,1)))))
+AUC_DCSBM = auc(roc(M_obs[V==0],proba_connect3[V==0],
+                    direction="<",levels=levels(as.factor(c(0,1)))))
+result5[nrow(result5)+1,] = c(ARIL1,ARIC1,ARIL2,ARIC2,ARIL3,ARIC3,AUC_LBM,AUC_CoOP,AUC_DCSBM)
 
 }
 ```
 
+
 ```{r, warning = FALSE}
 
-df1 = result5[c("ARI_row_LBM","ARI_row_CoOP")]
+df1 = result5[c("ARI_row_LBM","ARI_row_CoOP","ARI_row_DCSBM")]
 df1 = melt(df1)
 p1 <- ggplot(df1, aes(y=value,fill=variable))+
-  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot() +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for row clustering")+ labs(y="ARI",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM"))+ guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
-df2 = result5[c("ARI_col_LBM","ARI_col_CoOP")]
+df2 = result5[c("ARI_col_LBM","ARI_col_CoOP","ARI_col_DCSBM")]
 df2 = melt(df2)
 p2 <- ggplot(df2, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(legend.position = "bottom",axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("ARI for column clustering")+ labs(y="",x="")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 
@@ -509,16 +638,15 @@ grid.arrange(p1,p2,ncol=2)
 ```
 
 ```{r,warning=FALSE}
-df3 = result5[c("AUC_LBM","AUC_CoOP")]
+df3 = result5[c("AUC_LBM","AUC_CoOP","AUC_DCSBM")]
 
 df3_long <- melt(df3)
 p3 <- ggplot(df3_long, aes(y=value,fill=variable))+
-  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
+  geom_boxplot()  +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("AUC for missing data")+scale_fill_discrete(labels = c("LBM","CoOP-LBM","DCSBM")) + guides(fill=guide_legend(title=""))+labs(y="AUC")+theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+ylim(c(0,1))
 p3
 ```
-
 
 
 
