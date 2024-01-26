@@ -72,7 +72,7 @@ plotMyMatrix(R_obs,clustering = list(row=Z1_obs,col=Z2_obs),plotOptions = list(l
 
 
 
-```{r, fit1,cache=T}
+```{r, fit1}
 try1=fit_unsupervised_LBM(V,exploOptions = list(plot=FALSE,verbosity=F))
 try2=fit_unsupervised_CoOP_LBM(R_obs,exploOptions = list(plot=F,verbosity=F),estimOptions = list(maxIter  = 100))
 

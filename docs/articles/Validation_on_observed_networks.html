@@ -50,7 +50,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Available_options.html">Available options</a>
     <a class="dropdown-item" href="../articles/Example_on_other_settings.html">Robustness to model misspecification</a>
-    <a class="dropdown-item" href="../articles/Validation%20on%20observed%20networks.html">Validation on observed networks</a>
+    <a class="dropdown-item" href="../articles/Validation_on_observed_networks.html">Validation on observed networks</a>
     <a class="dropdown-item" href="../articles/example.html">Example</a>
   </div>
 </li>
@@ -77,7 +77,7 @@ the algorithm when the complete network is unknown</h3>
             
       
       
-      <div class="d-none name"><code>Validation on observed networks.Rmd</code></div>
+      <div class="d-none name"><code>Validation_on_observed_networks.Rmd</code></div>
     </div>
 
     
@@ -158,17 +158,17 @@ then we consider the following values :</p>
 <li>False positives : number of detected values even if <span class="math inline">\(M_{i,j}=0\)</span>
 </li>
 </ol>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>As we can see on the figure above, CoOP-LBM detects more missing
 interactions coming from the observation process <span class="math inline">\(R_{obs}= M \odot N\)</span> (lign in red) than the
 one comming from the subsampling <span class="math inline">\(U_{obs}\)</span></p>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>This graphic is the same as the precedent, but each curve have been
 scaled with the maximum value they reach. Once again, we can see that
 the LBM and DCSBM will first recover the interactions of <span class="math inline">\(V_{i,j}\)</span> that has gone missing because of
 the subsampling <span class="math inline">\(U_{obs}\)</span>, but they
 don’t find the missing interactions from <span class="math inline">\(M\)</span> that has gone missing because of <span class="math inline">\(R_{obs}\)</span>.</p>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-17-1.png" width="864">
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-17-1.png" width="864">
 This figure shows why the LBM and DCSBM has better score when we try to
 calculate the AUC with <span class="math inline">\(V_{i,j}\)</span>
 instead of <span class="math inline">\(M_{i,j}\)</span>. For the LBM and
@@ -176,8 +176,8 @@ the DCSBM, The majority of first discovered interactions are the one
 that went missing because of the subsampling of <span class="math inline">\(R_{obs}\)</span> (area in blue). Meanwhile, the
 CoOP-LBM detects first the interaction comming from <span class="math inline">\(M\)</span> (area in green). We reach the same
 conclusion using the graph below.</p>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-18-1.png" width="960"></p>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-19-1.png" width="480"></p>
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-18-1.png" width="960"></p>
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-19-1.png" width="480"></p>
 <p>If we reunite all the postive values (<span class="math inline">\(TP
 V + TP M\)</span>), then CoOP-LBM performs better than LBM and DCSBM.
 However in many cases, we only have access to <span class="math inline">\(TP V\)</span>, which in our case, disadvantages
@@ -475,7 +475,7 @@ then we consider the following values :</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">listB3</span>,col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">listC3</span>,col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"red"</span>,<span class="st">"blue"</span><span class="op">)</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FP"</span>,<span class="st">"TP : M"</span>,<span class="st">"TP : V"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-28-1.png" width="672"></p>
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-28-1.png" width="672"></p>
 <p>As we can see on the figure above, CoOP-LBM detects more missing
 interactions coming from the observation process <span class="math inline">\(R_{obs}= M \odot N\)</span> (lign in red) than the
 one comming from the subsampling <span class="math inline">\(U_{obs}\)</span></p>
@@ -496,7 +496,7 @@ one comming from the subsampling <span class="math inline">\(U_{obs}\)</span></p
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">listB3</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">listB3</span><span class="op">)</span>,col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">listC3</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">listC3</span><span class="op">)</span>,col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"red"</span>,<span class="st">"blue"</span><span class="op">)</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FP"</span>,<span class="st">"TP : M"</span>,<span class="st">"TP : V"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-29-1.png" width="672"></p>
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-29-1.png" width="672"></p>
 <p>This graphic is the same as the precedent, but each curve have been
 scaled with the maximum value they reach. Once again, we can see that
 the LBM and DCSBM will first recover the interactions of <span class="math inline">\(V_{i,j}\)</span> that has gone missing because of
@@ -547,7 +547,7 @@ don’t find the missing interactions from <span class="math inline">\(M\)</span
 <span><span class="va">combined_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>,<span class="va">p2</span>,<span class="va">p3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> </span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">combined_plot</span>, <span class="va">legend0</span>, nrow <span class="op">=</span> <span class="fl">1</span>, widths<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-34-1.png" width="864">
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-34-1.png" width="864">
 This figure shows why the LBM and DCSBM has better score when we try to
 calculate the AUC with <span class="math inline">\(V_{i,j}\)</span>
 instead of <span class="math inline">\(M_{i,j}\)</span>. For the LBM and
@@ -570,7 +570,7 @@ conclusion using the graph below.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">listC1</span>,type<span class="op">=</span><span class="st">"l"</span>,main<span class="op">=</span> <span class="st">"true positive for missing V interaction"</span>,ylab <span class="op">=</span> <span class="st">"number of discoveries"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">listC2</span>,lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">listC3</span>,lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-35-1.png" width="864"></p>
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-35-1.png" width="864"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#legend("topleft",lty=c(1,2,3),legend=c("LBM","CoOP-LBM","DCSBM"))</span></span></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
@@ -578,7 +578,7 @@ conclusion using the graph below.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">listB2</span><span class="op">+</span><span class="va">listC2</span>,lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">listB3</span><span class="op">+</span><span class="va">listC3</span>,lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LBM"</span>,<span class="st">"CoOP-LBM"</span>,<span class="st">"DCSBM"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation%20on%20observed%20networks_files/figure-html/unnamed-chunk-36-1.png" width="480"></p>
+<p><img src="Validation_on_observed_networks_files/figure-html/unnamed-chunk-36-1.png" width="480"></p>
 <p>If we reunite all the postive values (TP V + TP M), then CoOP-LBM
 performs better than LBM and DCSBM. However in many cases, we only have
 access to TP V, which in our case, disadvantages the CoOP-LBM.</p>
